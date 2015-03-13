@@ -58,8 +58,23 @@ function normalizeMeURL($url) {
 }
 
 function require_login(&$app) {
+  if($user=check_login())
+    return $user;
+
+  $app->redirect('/');
+  return false;
+}
+
+function require_login_json(&$app) {
+  if($user=check_login())
+    return $user;
+
+  json_response($app, array('error'=>'not_logged_in'));
+  return false;
+}
+
+function check_login() {
   if(!array_key_exists('user_id', $_SESSION)) {
-    $app->redirect('/');
     return false;
   } else {
     return ORM::for_table('users')->find_one($_SESSION['user_id']);

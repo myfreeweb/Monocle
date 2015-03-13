@@ -45,7 +45,7 @@
 
           <li><a href="/">Monocle</a></li>
         <? if(session('me')) { ?>
-          <li><a href="/settings">Settings</a></li>
+          <li><a href="/subscriptions">Subscriptions</a></li>
         <? } ?>
 
         <li><a href="/docs">Docs</a></li>

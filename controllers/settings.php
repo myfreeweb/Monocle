@@ -1,40 +1,40 @@
 <?php
 
-
-$app->get('/settings/?', function($format = 'html') use ($app) {
+$app->get('/subscriptions/?', function($format = 'html') use ($app) {
   if($user=require_login($app)) {
     $res = $app->response();
 
     ob_start();
-    render('settings', array(
-        'title'       => 'Settings',
-        'meta'        => '',
-        'subscriptions_url' => $user->subscriptions_url
+    render('subscriptions', array(
+      'title'       => 'Subscriptions',
+      'meta'        => ''
     ));
     $html = ob_get_clean();
     $res->body($html);
-  } else {
-    $app->redirect('/', 301);
   }
 });
 
-$app->post('/settings/save', function() use($app) {
-  if($user=require_login($app)) {
-    $params = $app->request()->params();
+$app->post('/subscriptions/discover', function($format='json') use($app) {
+  if($user=require_login_json($app)) {
 
-    $user->subscriptions_url = $params['subscriptions_url'];
-    $user->save();
+    $feeds = array(
+      array('url' => 'http://pk.dev/', 'display_url' => friendly_url('http://pk.dev/'), 'type' => 'microformats2'),
+      array('url' => 'http://pk.dev/articles.atom', 'display_url' => friendly_url('http://pk.dev/articles.atom'), 'type' => 'atom')
+    );
 
-    $subs = new Subscriptions();
-    $subs->refreshUserSubscriptionsFromURL($user->subscriptions_url);
+    json_response($app, array(
+      'feeds' => $feeds
+    ));
+  }
+});
 
-    $app->response()->body(json_encode(array(
+$app->post('/subscriptions/add', function($format='json') use($app) {
+  if($user=require_login_json($app)) {
+
+    
+
+    json_response($app, array(
       'result' => 'ok'
-    )));
-  } else {
-    $app->response()->body(json_encode(array(
-      'error' => 'unauthorized'
-    )));
+    ));
   }
 });
-
