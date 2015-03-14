@@ -3,6 +3,7 @@ ORM::configure('mysql:host=' . Config::$dbHost . ';dbname=' . Config::$dbName);
 ORM::configure('username', Config::$dbUsername);
 ORM::configure('password', Config::$dbPassword);
 
+
 function friendly_url($url) {
   return preg_replace(['/https?:\/\//','/\/$/'],'',$url);
 }

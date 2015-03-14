@@ -13,7 +13,9 @@
     "files": [
       "lib/Savant.php",
       "lib/config.php",
-      "lib/helpers.php"
+      "lib/helpers.php",
+      "lib/db_helpers.php",
+      "lib/request.php"
     ]
   }
 }

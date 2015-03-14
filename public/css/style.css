@@ -118,7 +118,7 @@ body {
   float: right;
 }
 
-#subscribe_url {
+#subscribe_url.left {
   width: 80%;
 }
 

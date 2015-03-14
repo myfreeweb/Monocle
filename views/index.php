@@ -1,6 +1,26 @@
 <div class="narrow">
   <?= partial('partials/header') ?>
 
+  <div id="channels">
+    <ul>
+      <? foreach($this->channels as $channel): ?>
+        <li><a href="/channel/<?= $channel['id'] ?>"><?= $channel['name'] ?></a></li>
+      <? endforeach; ?>
+    </ul>
+  </div>
+
+
+  <div style="margin:10px 0;" id="subscribe_box">
+    <input type="text" class="form-control" id="subscribe_url" placeholder="Subscribe to a URL" value="http://transportini.com">
+
+    <div id="feeds_discovered" style="display: none;">
+      <h3>Feeds Discovered:</h3>
+      <div class="loading"><img src="/images/spinner.gif" width="54" height="55"></div>
+      <ul></ul>
+    </div>
+  </div>
+
+
 <?php
 foreach($this->entries as $entry) {
   echo partial('partials/entry-in-list', [
@@ -18,51 +38,35 @@ foreach($this->entries as $entry) {
 </div>
 <script type="text/javascript">
 $(function(){
-  $('.entry .bookmark').click(function(){
-    var post_id = $(this).data('post-id');
+  $("#subscribe_url").keydown(function(e){
+    if(e.keyCode == 13) {
+      // $("#subscribe_btn").removeClass("btn-success");
+      $("#feeds_discovered").show();
 
-    $.post("/micropub/post", {
-      post_id: post_id,
-      h: 'entry',
-      'bookmark-of': $(this).data('url')
-    }, function(data) { 
-      console.log(data);
-      if(data.location) {
-        $("#entry_"+post_id+" .status").html('<div class="bs-callout bs-callout-success"><a href="'+data.location+'">Bookmarked!</a></div>');
-      } else {
-        $("#entry_"+post_id+" .status").html('<div class="bs-callout bs-callout-danger">There was a problem! Your Micropub endpoint returned: <pre>'+data.response+'</pre></div>');
-      }
-    });
-    return false;
+      $("#feeds_discovered ul").html('');
+
+      $.post('/channels/discover', {
+        url: $("#subscribe_url").val()
+      }, function(response) {
+        console.log(response);
+        $("#feeds_discovered .loading").hide();
+        $("#subscribe_btn").addClass("btn-success");
+        $(response.feeds).each(function(i,feed){
+          $("#feeds_discovered ul").append('<li><input type="button" class="btn btn-success" data-url="'+feed.url+'" value="'+feed.display_url+'"> ('+feed.type+')</li>');
+        });
+        bind_subscribe_buttons();
+      });
+    }
   });
-
-  $('.entry .reply').click(function(){
-    var post_id = $(this).data('post-id');
-    var post_url = $(this).data('url');
-    $("#entry_"+post_id+" .status").html('<textarea class="reply-content form-control" style="height: 4em;"></textarea><br><input type="button" value="Reply" class="btn btn-success save" data-post-id="'+post_id+'" data-url="'+post_url+'">');
-    $("#entry_"+post_id+" .status textarea").focus();
-    bind_reply();
-  });
-
 });
 
-function bind_reply() {
-  $('.entry .save').unbind('click').click(function(){
-    var post_id = $(this).data('post-id');
-
-    $.post("/micropub/post", {
-      post_id: post_id,
-      h: 'entry',
-      'in-reply-to': $(this).data('url'),
-      content: $("#entry_"+post_id+" .reply-content").val()
-    }, function(data) { 
-      if(data.location) {
-        $("#entry_"+data.post_id+" .status").html('<div class="bs-callout bs-callout-success"><a href="'+data.location+'">Bookmarked!</a></div>');
-      } else {
-        $("#entry_"+data.post_id+" .status").html('<div class="bs-callout bs-callout-danger">There was a problem! Your Micropub endpoint returned: <pre>'+data.response+'</pre></div>');
-      }
+function bind_subscribe_buttons() {
+  $("#feeds_discovered li input").click(function(){
+    $.post('/channels/add', {
+      url: $(this).data('url')
+    }, function() {
+      window.location = window.location;
     });
-    return false;
   });
 }
 </script>

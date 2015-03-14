@@ -16,7 +16,7 @@ $app = new \Slim\Slim(array(
 
 require 'controllers/auth.php';
 require 'controllers/controllers.php';
-require 'controllers/settings.php';
+require 'controllers/channels.php';
 require 'controllers/micropub.php';
 
 session_set_cookie_params(86400*30);
