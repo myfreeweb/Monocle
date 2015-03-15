@@ -58,7 +58,7 @@ function normalizeMeURL($url) {
 }
 
 function require_login(&$app) {
-  if($user=check_login())
+  if($user=current_user())
     return $user;
 
   $app->redirect('/');
@@ -66,19 +66,23 @@ function require_login(&$app) {
 }
 
 function require_login_json(&$app) {
-  if($user=check_login())
+  if($user=current_user())
     return $user;
 
   json_response($app, array('error'=>'not_logged_in'));
   return false;
 }
 
-function check_login() {
-  if(!array_key_exists('user_id', $_SESSION)) {
+function current_user() {
+  if(!is_logged_in()) {
     return false;
   } else {
     return ORM::for_table('users')->find_one($_SESSION['user_id']);
   }
+}
+
+function is_logged_in() {
+  return array_key_exists('user_id', $_SESSION);
 }
 
 $app->get('/auth/start', function() use($app) {
@@ -276,6 +280,14 @@ $app->get('/auth/callback', function() use($app) {
     $user->last_login = date('Y-m-d H:i:s');
     $user->save();
     $_SESSION['user_id'] = $user->id();
+
+    // Make sure their default feed exists
+    $channel = ORM::for_table('channels')->where('user_id', $_SESSION['user_id'])->where('type','default')->find_one();
+    if(!$channel) {
+      $channel = db\new_channel($_SESSION['user_id'], 'Home', 'default');
+      $channel->save();
+    }
+       
   }
 
   unset($_SESSION['auth_state']);

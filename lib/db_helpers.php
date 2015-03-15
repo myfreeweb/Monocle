@@ -26,11 +26,26 @@ function new_channel($user_id, $name='Home', $type='default') {
   return $channel;
 }
 
-function add_source($channel_id, $feed_id) {
-  $source = ORM::for_table('channel_sources')->create();
-  $source->channel_id = $channel_id;
-  $source->feed_id = $feed_id;
-  $source->date_created = date('Y-m-d H:i:s');
+function get_channel($user_id, $channel_id) {
+  return ORM::for_table('channels')
+    ->where('id', $channel_id)
+    ->where('user_id', $user_id)
+    ->find_one();
+}
+
+function add_source($channel_id, $feed_id, $filter=false) {
+  // Check if the source already exists
+  $source = ORM::for_table('channel_sources')->where('channel_id', $channel_id)->where('feed_id', $feed_id)->find_one();
+  if($source) {
+    $source->filter = $filter;
+    $source->date_updated = date('Y-m-d H:i:s');
+  } else {
+    $source = ORM::for_table('channel_sources')->create();
+    $source->channel_id = $channel_id;
+    $source->feed_id = $feed_id;
+    $source->filter = $filter;
+    $source->date_created = date('Y-m-d H:i:s');
+  }
   $source->save();
   return $source;
 }

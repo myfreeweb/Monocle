@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css">
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="/openwebicons/css/openwebicons-bootstrap.css" />
+
     <link rel="stylesheet" href="/css/style.css">
 
     <!-- icon stuff from www.favicongenerator.org -->
@@ -74,7 +76,6 @@
           <form action="/auth/start" method="get" class="navbar-form">
             <input type="text" name="me" placeholder="yourdomain.com" class="form-control" />
             <button type="submit" class="btn">Sign In</button>
-            <input type="hidden" name="redirect_uri" value="http<?= Config::$ssl ? 's' : '' ?>://<?= $_SERVER['SERVER_NAME'] ?>/indieauth" />
           </form>
         <? } ?>
 

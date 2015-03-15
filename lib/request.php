@@ -1,6 +1,5 @@
 <?php
-
-namespace feeds;
+namespace request;
 
 function get_url($url) {
   $ch = curl_init($url);
@@ -9,28 +8,6 @@ function get_url($url) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   return curl_exec($ch);
 }
-
-function parse_mf2(&$html) {
-  $parser = new \mf2\Parser($html);
-  return $parser->parse();
-}
-
-function get_rels(&$data) {
-  if($data && array_key_exists('rels', $data)) {
-    return $data['rels'];
-  } else {
-    return array();
-  }
-}
-
-function get_alternates(&$data) {
-  if($data && array_key_exists('alternates', $data)) {
-    return $data['alternates'];
-  } else {
-    return array();
-  }
-}
-
 
 function set_user_agent(&$ch) {
   // Unfortunately I've seen a bunch of websites return different content when the user agent is set to something like curl or other server-side libraries, so we have to pretend to be a browser to successfully get the real HTML

@@ -8,7 +8,7 @@
       <h4><?= $channel['name'] ?></h4>
       <ul>
         <? foreach($channel['sources'] as $source): ?>
-          <li><?= $source['id'] ?></li>
+          <li><?= $source['feed_url'] ?></li>
         <? endforeach; ?>
       </ul>
     </li>

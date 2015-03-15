@@ -9,29 +9,39 @@ $app->get('/channels/?', function($format = 'html') use ($app) {
       ->where('user_id', $_SESSION['user_id'])
       ->find_many();
     foreach($channels as $ch) {
-      $ch['sources'] = ORM::for_table('channel_sources')->where('channel_id', $ch['id'])->find_many();
+      $ch['sources'] = ORM::for_table('channel_sources')
+        ->join('feeds', ['channel_sources.feed_id','=','feeds.id'])
+        ->where('channel_id', $ch['id'])->find_many();
     }
 
     ob_start();
-    render('channels', array(
+    render('channels', [
       'title'       => 'Channels',
       'meta'        => '',
       'channels'    => $channels
-    ));
+    ]);
     $html = ob_get_clean();
     $res->body($html);
   }
 });
 
-$app->get('/channel/:id', function($format='html') use($app) {
+$app->get('/channel/:id', function($id) use($app) {
   if($user=require_login($app)) {
+    $params = $app->request()->params();
     $res = $app->response();
 
+    $channel = db\get_channel($_SESSION['user_id'], $id);
+
+    if(!$channel) {
+      $app->notFound();
+    }
+
     ob_start();
-    render('channel', array(
+    render('channel', [
       'title' => 'Channel',
-      'meta' => ''
-    ));
+      'meta' => '',
+      'channel' => $channel
+    ]);
     $res->body(ob_get_clean());
   }
 });
@@ -45,43 +55,44 @@ $app->post('/channels/discover', function($format='json') use($app) {
     //   array('url' => 'http://pk.dev/articles.atom', 'display_url' => friendly_url('http://pk.dev/articles.atom'), 'type' => 'atom')
     // );
 
-    $feeds = array();
+    $feeds = [];
 
     // Parse the URL and check for microformats h-entry posts, as well as linked rss or atom feeds
-    $html = feeds\get_url($params['url']);
+    $html = request\get_url($params['url']);
     $url = normalize_url($params['url']);
 
     if($html) {
-      $mf2 = feeds\parse_mf2($html);
+      $mf2 = feeds\parse_mf2($html, $params['url']);
 
       // check if there are any h-entry posts
-      $entries = Mf2\findMicroformatsByType($mf2, 'h-entry');
-      if($entries && count($entries) > 0) {
-        $feeds[] = array(
+      $feed = feeds\find_feed_info($mf2);
+      if($feed) {
+        $feeds[] = [
           'url' => $url,
           'display_url' => friendly_url($url),
-          'type' => 'microformats2'
-        );
+          'icon' => '<i class="icon-microformats"></i>',
+          'enabled' => true
+        ];
       }
 
-      // TODO: how to get the type attribute so we know if it's atom or rss
       $alternates = feeds\get_alternates($mf2);
       foreach($alternates as $alt) {
-        $feeds[] = array(
+        $feeds[] = [
           'url' => $alt['url'],
           'display_url' => friendly_url($alt['url']),
-          'type' => 'atom'
-        );
+          'icon' => '<i class="fa fa-rss"></i>',
+          'enabled' => false
+        ];
       }
     }
 
-    json_response($app, array(
+    json_response($app, [
       'feeds' => $feeds
-    ));
+    ]);
   }
 });
 
-$app->post('/channels/add', function($format='json') use($app) {
+$app->post('/channels/add_feed', function($format='json') use($app) {
   if($user=require_login_json($app)) {
     $params = $app->request()->params();
 
@@ -94,21 +105,23 @@ $app->post('/channels/add', function($format='json') use($app) {
       $feed->save();
     }
 
-    // Create the default channel for this user if it doesn't exist yet
-    $channel = ORM::for_table('channels')->where('user_id', $_SESSION['user_id'])->where('type','default')->find_one();
+    $channel = db\get_channel($_SESSION['user_id'], $params['channel_id']);
+
     if(!$channel) {
-      $channel = db\new_channel($_SESSION['user_id'], 'Home', 'default');
-      $channel->save();
+      // bad input
+      json_response($app, [
+        'result' => 'error'
+      ]);
+    } else {
+      // Add the feed as a source for this channel, or update if it already exists
+      db\add_source($channel->id, $feed->id, k($params, 'filter'));
+
+      // Begin async processing of the feed to discover the push hub and initial content on the feed
+
+
+      json_response($app, [
+        'result' => 'ok'
+      ]);
     }
-
-    // Add the feed as a source for this channel
-    
-
-    // Begin async processing of the feed to discover the push hub and initial content on the feed
-
-
-    json_response($app, array(
-      'result' => 'ok'
-    ));
   }
 });
