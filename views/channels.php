@@ -5,12 +5,7 @@
   <ul>
   <? foreach($this->channels as $channel): ?>
     <li>
-      <h4><?= $channel['name'] ?></h4>
-      <ul>
-        <? foreach($channel['sources'] as $source): ?>
-          <li><?= $source['feed_url'] ?></li>
-        <? endforeach; ?>
-      </ul>
+      <a href="/channel/<?= $channel['id'] ?>/settings"><?= $channel['name'] ?></a> (<?= $channel['sources'] ?> sources)
     </li>
   <? endforeach; ?>
   </ul>

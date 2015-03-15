@@ -85,6 +85,14 @@ function is_logged_in() {
   return array_key_exists('user_id', $_SESSION);
 }
 
+function user_id() {
+  if(is_logged_in()) {
+    return $_SESSION['user_id'];
+  } else {
+    return false;
+  }
+}
+
 $app->get('/auth/start', function() use($app) {
   $req = $app->request();
 
@@ -284,7 +292,7 @@ $app->get('/auth/callback', function() use($app) {
     // Make sure their default feed exists
     $channel = ORM::for_table('channels')->where('user_id', $_SESSION['user_id'])->where('type','default')->find_one();
     if(!$channel) {
-      $channel = db\new_channel($_SESSION['user_id'], 'Home', 'default');
+      $channel = db\new_channel($_SESSION['user_id']);
       $channel->save();
     }
        

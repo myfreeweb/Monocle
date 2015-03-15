@@ -11,7 +11,7 @@ $app->get('/channels/?', function($format = 'html') use ($app) {
     foreach($channels as $ch) {
       $ch['sources'] = ORM::for_table('channel_sources')
         ->join('feeds', ['channel_sources.feed_id','=','feeds.id'])
-        ->where('channel_id', $ch['id'])->find_many();
+        ->where('channel_id', $ch['id'])->count();
     }
 
     ob_start();
@@ -125,3 +125,68 @@ $app->post('/channels/add_feed', function($format='json') use($app) {
     }
   }
 });
+
+
+$app->get('/channel/:id/settings', function($id) use($app) {
+  if($user=require_login($app)) {
+    $params = $app->request()->params();
+    $res = $app->response();
+
+    $channel = db\get_channel($_SESSION['user_id'], $id);
+
+    if(!$channel) {
+      $app->notFound();
+    }
+
+    $feeds = db\get_feeds_for_channel($channel->id);
+
+    ob_start();
+    render('channel-settings', [
+      'title' => 'Channel Settings',
+      'meta' => '',
+      'channel' => $channel,
+      'feeds' => $feeds
+    ]);
+    $res->body(ob_get_clean());
+  }
+});
+
+$app->post('/channel/:id/settings', function($id) use($app) {
+  if($user=require_login($app)) {
+    $params = $app->request()->params();
+    $res = $app->response();
+
+    $channel = db\get_channel(user_id(), $id);
+
+    if(!$channel) {
+      $app->notFound();
+    }
+
+    $feed = db\get_feed_for_user(user_id(), $params['feed_id']);
+
+    if(!$feed) {
+      $app->notFound();
+    }
+
+    switch($params['action']) {
+      case 'set-name':
+        $source = db\get_source($channel->id, $feed->id);
+        $source->display_name = $params['name'];
+        db\set_updated($source);
+        $source->save();
+        break;
+      case 'refresh-feed':
+        
+        break;
+      case 'remove-feed':
+        $source = db\get_source($channel->id, $feed->id);
+        $source->delete();
+        break;
+    }
+
+    json_response($app, [
+      'result' => 'ok'
+    ]);
+  }
+});
+

@@ -15,12 +15,13 @@ CREATE TABLE `channel_sources` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `channel_id` bigint(11) DEFAULT NULL,
   `feed_id` bigint(11) DEFAULT NULL,
+  `display_name` varchar(255) DEFAULT NULL,
   `filter` text,
   `date_created` datetime DEFAULT NULL,
   `date_updated` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `feeds` (`channel_id`,`feed_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -86,7 +87,6 @@ CREATE TABLE `entries_tags` (
 CREATE TABLE `feeds` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `hash` varchar(190) DEFAULT NULL,
-  `name` text NOT NULL,
   `feed_url` text NOT NULL,
   `feed_type` enum('mf2','atom','rss') DEFAULT NULL,
   `homepage_url` text,
@@ -96,6 +96,7 @@ CREATE TABLE `feeds` (
   `push_last_ping_received` datetime DEFAULT NULL,
   `push_expiration` datetime DEFAULT NULL,
   `last_retrieved` datetime DEFAULT NULL,
+  `last_post_date` datetime DEFAULT NULL,
   `public` tinyint(4) NOT NULL DEFAULT '1',
   `date_created` datetime NOT NULL,
   `date_updated` datetime NOT NULL,

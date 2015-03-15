@@ -2,7 +2,7 @@
   <?= partial('partials/header') ?>
   <h2><?= $this->channel->name ?></h2>
 
-  <?= partial('partials/channel', [
+  <?= partial('partials/add-feed-to-channel', [
     'channel' => $this->channel
   ]) ?>
 

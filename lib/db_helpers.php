@@ -8,6 +8,10 @@ function random_hash() {
   return substr(str_shuffle(str_repeat($alpha_numeric, $len)), 0, $len);
 }
 
+function set_updated(&$record) {
+  $record->date_updated = date('Y-m-d H:i:s');
+}
+
 function new_feed() {
   $feed = ORM::for_table('feeds')->create();
   $feed->hash = random_hash();
@@ -16,7 +20,7 @@ function new_feed() {
   return $feed;
 }
 
-function new_channel($user_id, $name='Home', $type='default') {
+function new_channel($user_id, $name='Default', $type='default') {
   $channel = ORM::for_table('channels')->create();
   $channel->user_id = $user_id;
   $channel->name = $name;
@@ -33,9 +37,44 @@ function get_channel($user_id, $channel_id) {
     ->find_one();
 }
 
+function get_feed($feed_id) {
+  return ORM::for_table('feeds')
+    ->where('id', $channel_id)
+    ->find_one();
+}
+
+function get_source($channel_id, $feed_id) {
+  return ORM::for_table('channel_sources')
+    ->where('channel_id', $channel_id)
+    ->where('feed_id', $feed_id)
+    ->find_one();
+}
+
+function get_feed_for_user($user_id, $feed_id) {
+  return ORM::for_table('channel_sources')
+    ->select('feeds.*')
+    ->select('channel_sources.display_name')
+    ->select('channel_sources.filter')
+    ->join('feeds', ['channel_sources.feed_id','=','feeds.id'])
+    ->join('channels', ['channel_sources.channel_id','=','channels.id'])
+    ->where('channel_sources.feed_id', $feed_id)
+    ->where('channels.user_id', $user_id)
+    ->find_one();
+}
+
+function feed_display_name(&$record) {
+  if($record['display_name'])
+    return $record['display_name'];
+  return friendly_url($record['feed_url']);
+}
+
 function add_source($channel_id, $feed_id, $filter=false) {
   // Check if the source already exists
-  $source = ORM::for_table('channel_sources')->where('channel_id', $channel_id)->where('feed_id', $feed_id)->find_one();
+  $source = ORM::for_table('channel_sources')
+    ->where('channel_id', $channel_id)
+    ->where('feed_id', $feed_id)
+    ->find_one();
+
   if($source) {
     $source->filter = $filter;
     $source->date_updated = date('Y-m-d H:i:s');
@@ -50,3 +89,11 @@ function add_source($channel_id, $feed_id, $filter=false) {
   return $source;
 }
 
+function get_feeds_for_channel($channel_id) {
+  $feeds = ORM::for_table('channel_sources')
+    ->join('feeds', ['channel_sources.feed_id','=','feeds.id'])
+    ->where('channel_id', $channel_id)
+    ->order_by_desc('channel_sources.date_created')
+    ->find_many();
+  return $feeds;
+}

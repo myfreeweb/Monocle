@@ -9,7 +9,7 @@
     </ul>
   </div>
 
-  <?= partial('partials/channel', [
+  <?= partial('partials/add-feed-to-channel', [
     'channel' => $this->channel
   ]) ?>
 

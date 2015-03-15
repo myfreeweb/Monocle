@@ -1,8 +1,8 @@
 <div style="margin:10px 0;" id="subscribe_box">
-  <input type="text" class="form-control" id="subscribe_url" placeholder="Subscribe to a URL" value="http://tantek.com">
+  <input type="text" class="form-control" id="subscribe_url" placeholder="Subscribe to a URL">
 
   <div id="feeds_discovered" style="display: none;">
-    <h3>Feeds Found:</h3>
+    <h3>Add a Feed:</h3>
     <div class="loading"><img src="/images/spinner.gif" width="54" height="55"></div>
     <ul></ul>
   </div>
@@ -47,7 +47,7 @@ function bind_subscribe_buttons() {
     });
   });
   $("#feeds_discovered li .filter-btn").click(function(){
-    $(this).parents("span").html('<input type="text" data-id="'+$(this).data('id')+'" class="form-control filter" placeholder="comma-separated terms" />');
+    $(this).parents("span").html('<input type="text" data-id="'+$(this).data('id')+'" class="form-control filter" placeholder="filters: comma-separated" />');
   });
 }
 </script>
