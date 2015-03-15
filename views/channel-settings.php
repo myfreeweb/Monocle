@@ -10,7 +10,10 @@
     <div class="feed-settings-box" id="feed-<?= $feed['id'] ?>">
 
       <div class="action-buttons">
-        <button class="btn btn-info refresh-feed" data-feed-id="<?= $feed['id'] ?>">Refresh Feed</button>
+        <button class="btn btn-info refresh-feed" data-feed-id="<?= $feed['id'] ?>"<?= $feed['refresh_in_progress'] ? ' disabled="disabled"' : '' ?>>
+          <?= $feed['refresh_in_progress'] ? '<i class="fa fa-refresh fa-spin"></i>' : '' ?>
+          Refresh Feed
+        </button>
         <button class="btn btn-danger remove-feed" data-feed-id="<?= $feed['id'] ?>">Remove</button>
       </div>
 

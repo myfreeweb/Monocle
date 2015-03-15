@@ -39,7 +39,7 @@ function get_channel($user_id, $channel_id) {
 
 function get_feed($feed_id) {
   return ORM::for_table('feeds')
-    ->where('id', $channel_id)
+    ->where('id', $feed_id)
     ->find_one();
 }
 

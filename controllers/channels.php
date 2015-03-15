@@ -176,7 +176,7 @@ $app->post('/channel/:id/settings', function($id) use($app) {
         $source->save();
         break;
       case 'refresh-feed':
-        
+        DeferredTask::queue('FeedTask', 'refresh_feed', $feed->id);
         break;
       case 'remove-feed':
         $source = db\get_source($channel->id, $feed->id);

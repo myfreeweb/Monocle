@@ -8,6 +8,9 @@ class Config {
   public static $dbUsername = 'reader';
   public static $dbPassword = '';
 
+  public static $beanstalkServer = '127.0.0.1';
+  public static $beanstalkPort = 11300;
+
   public static $defaultAuthorizationEndpoint = 'https://indieauth.com/auth';
 }
 
