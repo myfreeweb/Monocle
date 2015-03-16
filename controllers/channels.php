@@ -117,7 +117,7 @@ $app->post('/channels/add_feed', function($format='json') use($app) {
       db\add_source($channel->id, $feed->id, k($params, 'filter'));
 
       // Begin async processing of the feed to discover the push hub and initial content on the feed
-
+      DeferredTask::queue('FeedTask', 'refresh_feed', $feed->id);
 
       json_response($app, [
         'result' => 'ok'

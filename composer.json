@@ -17,6 +17,7 @@
       "lib/helpers.php",
       "lib/db_helpers.php",
       "lib/mf2_feed_parser.php",
+      "lib/DeferredTask.php",
       "lib/FeedTask.php",
       "lib/request.php"
     ]

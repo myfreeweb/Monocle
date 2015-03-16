@@ -31,6 +31,15 @@
           </div>
         </div>
 
+        <? if($feed['filter']): ?>
+          <div class="form-group">
+            <div class="col-sm-3 control-label">Filter</div>
+            <div class="col-sm-9 control-value">
+              <?= $feed['filter'] ?>
+            </div>
+          </div>
+        <? endif; ?>
+
         <div class="form-group">
           <div class="col-sm-3 control-label">Last Retrieved</div>
           <div class="col-sm-9 control-value"><?= $feed['last_retrieved'] ?></div>

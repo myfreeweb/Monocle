@@ -19,16 +19,13 @@ $pcntl_continue = TRUE;
 
 define('PDO_SUPPORT_DELAYED', TRUE);
 
-require 'vendor/autoload.php';
+// TODO: add support for forking and running many workers in parallel
+// e.g. `php run.php 10`
 
-if(count($argv) < 2) {
-  echo "Usage example: php manager.php worker\n";
-  exit(0);
-}
+require 'vendor/autoload.php';
 
 if($mode == 'once') {
   DeferredTask::run_once();
 } else {
   DeferredTask::run();
 }
-
