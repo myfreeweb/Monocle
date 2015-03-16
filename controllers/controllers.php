@@ -15,10 +15,7 @@ $app->get('/', function ($format = 'html') use ($app) {
 
   } else {
 
-    $channels = ORM::for_table('channels')
-      ->where('user_id', $_SESSION['user_id'])
-      ->where_not_equal('type', 'default')
-      ->find_many();
+    $channels = db\get_user_channels($_SESSION['user_id']);
 
     $main_channel = ORM::for_table('channels')
       ->where('user_id', $_SESSION['user_id'])
@@ -26,7 +23,7 @@ $app->get('/', function ($format = 'html') use ($app) {
       ->find_one();
 
     ob_start();
-    render('index', array(
+    render('channel', array(
       'title'       => 'Monocle',
       'meta'        => '',
       'channel'     => $main_channel,

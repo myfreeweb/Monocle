@@ -20,7 +20,7 @@ function new_feed() {
   return $feed;
 }
 
-function new_channel($user_id, $name='Default', $type='default') {
+function new_channel($user_id, $name='Home', $type='default') {
   $channel = ORM::for_table('channels')->create();
   $channel->user_id = $user_id;
   $channel->name = $name;
@@ -62,6 +62,13 @@ function get_feed_for_user($user_id, $feed_id) {
     ->find_one();
 }
 
+function get_user_channels($user_id) {
+  return ORM::for_table('channels')
+    ->where('user_id', $user_id)
+    ->order_by_asc('type', '=', 'default')
+    ->find_many();
+}
+
 function feed_display_name(&$record) {
   if($record['display_name'])
     return $record['display_name'];
@@ -74,6 +81,12 @@ function add_source($channel_id, $feed_id, $filter=false) {
     ->where('channel_id', $channel_id)
     ->where('feed_id', $feed_id)
     ->find_one();
+
+  if($filter) {
+    // split on commas and spaces
+    $filter = preg_split('/[ ,]+/', $filter);
+    $filter = join(',',$filter);
+  }
 
   if($source) {
     $source->filter = $filter;

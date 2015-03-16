@@ -1,6 +1,8 @@
 <div class="narrow">
   <?= partial('partials/header') ?>
-  <h2><?= $this->channel->name ?></h2>
+  <? if($this->channel->type != 'default'): ?>
+    <h2><?= $this->channel->name ?></h2>
+  <? endif; ?>
 
   <?= partial('partials/add-feed-to-channel', [
     'channel' => $this->channel

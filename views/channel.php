@@ -1,6 +1,10 @@
 <div class="narrow">
   <?= partial('partials/header') ?>
-  <h2><?= $this->channel->name ?></h2>
+
+  <?= partial('partials/channel-tabs', [
+    'channels' => $this->channels,
+    'active_channel' => $this->channel
+  ]) ?>
 
   <?= partial('partials/add-feed-to-channel', [
     'channel' => $this->channel

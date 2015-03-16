@@ -6,7 +6,7 @@ $app->get('/channels/?', function($format = 'html') use ($app) {
     $res = $app->response();
 
     $channels = ORM::for_table('channels')
-      ->where('user_id', $_SESSION['user_id'])
+      ->where('user_id', user_id())
       ->find_many();
     foreach($channels as $ch) {
       $ch['sources'] = ORM::for_table('channel_sources')
@@ -30,19 +30,39 @@ $app->get('/channel/:id', function($id) use($app) {
     $params = $app->request()->params();
     $res = $app->response();
 
-    $channel = db\get_channel($_SESSION['user_id'], $id);
+    $channel = db\get_channel(user_id(), $id);
 
     if(!$channel) {
       $app->notFound();
     }
 
+    $channels = db\get_user_channels(user_id());
+
     ob_start();
     render('channel', [
       'title' => 'Channel',
       'meta' => '',
-      'channel' => $channel
+      'channel' => $channel,
+      'channels' => $channels
     ]);
     $res->body(ob_get_clean());
+  }
+});
+
+$app->post('/channels/new', function() use($app) {
+  if($user=require_login_json($app)) {
+    $params = $app->request()->params();
+
+    $channel = ORM::for_table('channels')->create();
+    $channel->user_id = user_id();
+    $channel->name = $params['name'];
+    $channel->date_created = date('Y-m-d H:i:s');
+    $channel->type = 'feeds';
+    $channel->save();
+
+    json_response($app, [
+      'result' => 'ok'
+    ]);
   }
 });
 
@@ -105,7 +125,7 @@ $app->post('/channels/add_feed', function($format='json') use($app) {
       $feed->save();
     }
 
-    $channel = db\get_channel($_SESSION['user_id'], $params['channel_id']);
+    $channel = db\get_channel(user_id(), $params['channel_id']);
 
     if(!$channel) {
       // bad input
@@ -132,7 +152,7 @@ $app->get('/channel/:id/settings', function($id) use($app) {
     $params = $app->request()->params();
     $res = $app->response();
 
-    $channel = db\get_channel($_SESSION['user_id'], $id);
+    $channel = db\get_channel(user_id(), $id);
 
     if(!$channel) {
       $app->notFound();

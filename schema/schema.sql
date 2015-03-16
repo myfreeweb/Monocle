@@ -7,7 +7,7 @@ CREATE TABLE `channel_entries` (
   `entry_published` datetime DEFAULT NULL,
   `date_created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -29,13 +29,13 @@ CREATE TABLE `channels` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
+  `date_created` datetime DEFAULT NULL,
+  `date_updated` datetime DEFAULT NULL,
   `public` tinyint(1) NOT NULL DEFAULT '0',
   `type` enum('default','feeds') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -44,7 +44,8 @@ CREATE TABLE `entries` (
   `feed_id` bigint(11) DEFAULT NULL,
   `url` text,
   `name` text,
-  `content` text NOT NULL,
+  `summary` text,
+  `content` text,
   `like_of_url` text,
   `repost_of_url` text,
   `in_reply_to_url` text,
@@ -59,7 +60,7 @@ CREATE TABLE `entries` (
   `event_end` datetime DEFAULT NULL,
   `event_end_tz_offset` int(11) DEFAULT NULL,
   `date_published` datetime NOT NULL,
-  `timezone_offset` int(11) NOT NULL,
+  `timezone_offset` int(11) NOT NULL DEFAULT '0',
   `num_likes` int(11) DEFAULT NULL,
   `num_reposts` int(11) DEFAULT NULL,
   `num_comments` int(11) DEFAULT NULL,
@@ -69,7 +70,7 @@ CREATE TABLE `entries` (
   PRIMARY KEY (`id`),
   KEY `feed_id` (`feed_id`),
   KEY `url` (`feed_id`,`url`(190))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -80,7 +81,7 @@ CREATE TABLE `entries_tags` (
   PRIMARY KEY (`id`),
   KEY `entry_id` (`entry_id`),
   KEY `tag` (`tag`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -97,6 +98,8 @@ CREATE TABLE `feeds` (
   `push_expiration` datetime DEFAULT NULL,
   `last_retrieved` datetime DEFAULT NULL,
   `last_post_date` datetime DEFAULT NULL,
+  `refresh_started` datetime DEFAULT NULL,
+  `refresh_in_progress` tinyint(1) DEFAULT '0',
   `public` tinyint(4) NOT NULL DEFAULT '1',
   `date_created` datetime NOT NULL,
   `date_updated` datetime NOT NULL,
