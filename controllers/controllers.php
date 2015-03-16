@@ -22,12 +22,15 @@ $app->get('/', function ($format = 'html') use ($app) {
       ->where('type', 'default')
       ->find_one();
 
+    $entries = db\get_entries_for_channel($main_channel->id);
+
     ob_start();
     render('channel', array(
       'title'       => 'Monocle',
       'meta'        => '',
       'channel'     => $main_channel,
-      'channels'    => $channels
+      'channels'    => $channels,
+      'entries'     => $entries
     ));
     $html = ob_get_clean();
     $res->body($html);

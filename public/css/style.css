@@ -1,5 +1,6 @@
 body {
   padding-top: 10px;
+  background: #fffbeb;
 }
 
 .header {
@@ -129,5 +130,64 @@ body {
 }
 #feeds_discovered ul li {
   margin-bottom: 10px;
+}
+
+/**
+ * Single Entry
+ */
+.entry {
+  background: white;
+
+  padding: 12px;
+  margin-bottom: 12px;
+
+  border: 1px #ead78b solid;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;  
+
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
+}
+.entry .author .photo {
+  position: relative; 
+  width: 48px; 
+  float: left; 
+  margin-right: 6px;
+}
+.entry .author .photo img {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.entry .author a.url {
+  font-weight: bold;
+}
+.entry .author .name {
+  color: #999;
+}
+
+.entry .clear {
+  clear: both;  
+  margin-bottom: 10px;
+}
+
+.entry .meta {
+  text-decoration: none;  
+  color: #999;
+  font-size: 12px;
+}
+.entry .meta ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.entry .meta ul li {
+  display: inline-block;
+  margin-right: 20px;
+}
+.entry .meta a {
+  color: #999;
 }
 

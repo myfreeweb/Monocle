@@ -10,6 +10,14 @@ function friendly_url($url) {
   return preg_replace(['/https?:\/\//','/\/$/'],'',$url);
 }
 
+function friendly_date($date_string, $tz_offset) {
+  $date = new DateTime($date_string);
+  $tzn = timezone_name_from_abbr("", $tz_offset, 0);
+  $tz = new DateTimeZone($tzn);
+  $date->setTimeZone($tz);
+  return $date->format('F m, Y g:ia P');
+}
+
 // Input: Any URL or string like "aaronparecki.com"
 // Output: Normlized URL (default to http if no scheme, force "/" path)
 //         or return false if not a valid URL
@@ -149,3 +157,23 @@ function bs()
   return $pheanstalk;
 }
 
+function pluralize($word, $num) {
+  if($num == 1) {
+    return $word;
+  } else { 
+    return $word . 's';
+  }
+}
+
+function response_icon($type) {
+  switch($type) {
+    case 'like':
+      return '<i class="fa fa-star-o"></i>';
+    case 'comment':
+      return '<i class="fa fa-comment-o"></i>';
+    case 'repost':
+      return '<i class="fa fa-retweet"></i>';
+    case 'rsvp':
+      return '<i class="fa fa-calendar"></i>';
+  }
+}

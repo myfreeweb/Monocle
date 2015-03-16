@@ -32,6 +32,10 @@
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
+#channels ul li.active {
+  background: #aaaaaa;
+  border-color: #9d9d9d;
+}
 #channels ul li:hover {
   background: #f2f2f2;
 }
@@ -40,9 +44,6 @@
 }
 #channels ul li a {
   text-decoration: none;
-}
-#channels ul li.active {
-  background: #aaaaaa;
 }
 #channels ul li.active a {
   color: white;

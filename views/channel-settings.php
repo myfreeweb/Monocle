@@ -92,7 +92,7 @@
 <style type="text/css">
 .feed-settings-box {
   border: 1px #ccc solid;
-  background: #f5fdff;
+  background: #fff;
 
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;

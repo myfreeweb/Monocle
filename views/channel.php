@@ -10,4 +10,10 @@
     'channel' => $this->channel
   ]) ?>
 
+  <? foreach($this->entries as $entry): ?>
+    <?= partial('partials/entry', [
+      'entry' => $entry
+    ]) ?>
+  <? endforeach; ?>
+
 </div>

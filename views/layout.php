@@ -59,12 +59,12 @@
     <div class="nav">
       <ul class="nav navbar-nav">
 
-          <li><a href="/">Home</a></li>
+        <li><a href="/">Home</a></li>
         <? if(session('me')) { ?>
           <li><a href="/channels">Channels</a></li>
         <? } ?>
+        <!-- <li><a href="/docs">Docs</a></li> -->
 
-        <li><a href="/docs">Docs</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <? if(session('me')) { ?>

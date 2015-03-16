@@ -38,12 +38,15 @@ $app->get('/channel/:id', function($id) use($app) {
 
     $channels = db\get_user_channels(user_id());
 
+    $entries = db\get_entries_for_channel($channel->id);
+
     ob_start();
     render('channel', [
-      'title' => 'Channel',
-      'meta' => '',
-      'channel' => $channel,
-      'channels' => $channels
+      'title'    => 'Channel',
+      'meta'     => '',
+      'channel'  => $channel,
+      'channels' => $channels,
+      'entries'  => $entries
     ]);
     $res->body(ob_get_clean());
   }

@@ -75,6 +75,13 @@ function feed_display_name(&$record) {
   return friendly_url($record['feed_url']);
 }
 
+function get_entries_for_channel($channel_id) {
+  return ORM::for_table('entries')
+    ->join('channel_entries', ['channel_entries.entry_id','=','entries.id'])
+    ->where('channel_entries.channel_id', $channel_id)
+    ->find_many();
+}
+
 function add_source($channel_id, $feed_id, $filter=false) {
   // Check if the source already exists
   $source = ORM::for_table('channel_sources')
