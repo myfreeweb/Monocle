@@ -58,13 +58,18 @@ class FeedTask {
             if($entry_html) {
 
               $entry_mf2 = feeds\parse_mf2($entry_html, $entry_url);
-              $entry_mf2 = $entry_mf2['items'][0];
+              $entries = Mf2\findMicroformatsByType($entry_mf2['items'], 'h-entry');
+              $entry_mf2 = $entries[0];
 
-              if(!Mf2\isMicroformat($entry_mf2))
+              if(!Mf2\isMicroformat($entry_mf2)) {
+                echo "Does not appear to be a microformat\n";
                 continue;
+              }
               
-              if(!in_array('h-entry', $entry_mf2['type']))
+              if(!in_array('h-entry', $entry_mf2['type'])) {
+                print_r($entry_mf2);
                 continue;
+              }
 
               if(!($entry = ORM::for_table('entries')->where('feed_id',$feed->id)->where('url',$entry_url)->find_one())) {
                 $entry = ORM::for_table('entries')->create();
@@ -81,6 +86,7 @@ class FeedTask {
               // Store the name if it's different from the summary and the content
               if(!feeds\content_is_equal($name, $summary) && !feeds\content_is_equal($name, $content_text)) {
                 $entry->name = $name;
+                echo "Entry has a name: $name\n";
               } else {
                 $entry->name = '';
               }
@@ -88,6 +94,7 @@ class FeedTask {
               // Store the summary if it's different from the content
               if(!feeds\content_is_equal($summary, $content_text)) {
                 $entry->summary = $summary;
+                echo "Entry has a summary\n";
               } else {
                 $entry->summary = '';
               }
@@ -103,6 +110,7 @@ class FeedTask {
                     $entry->timezone_offset = $date->format('Z');
                     $date->setTimeZone(new DateTimeZone('UTC'));
                     $entry->date_published = $date->format('Y-m-d H:i:s');
+                    echo "Published: $entry->date_published\n";
                   }
                 } catch(Exception $e) {
                   echo "Error parsing date: $date_string\n";
@@ -136,7 +144,6 @@ class FeedTask {
                 $entry->audio_url = Mf2\getPlaintext($entry_mf2, 'audio');
 
               $author_mf2 = false;
-              print_r($entry_mf2);
               if(Mf2\hasProp($entry_mf2, 'author')) {
                 $author_mf2 = $entry_mf2['properties']['author'][0];
               } elseif(Mf2\hasProp($info, 'author')) {
