@@ -13,7 +13,7 @@
 
       <div class="action-buttons">
         <button class="btn btn-info refresh-feed" data-feed-id="<?= $feed['id'] ?>"<?= $feed['refresh_in_progress'] ? ' disabled="disabled"' : '' ?>>
-          <?= $feed['refresh_in_progress'] ? '<i class="fa fa-refresh fa-spin"></i>' : '' ?>
+          <i class="fa fa-refresh fa-spin" style="<?= $feed['refresh_in_progress'] ? '' : 'display:none;' ?>"></i>
           Refresh Feed
         </button>
         <button class="btn btn-danger remove-feed" data-feed-id="<?= $feed['id'] ?>">Remove</button>
@@ -150,6 +150,8 @@ $(function(){
     }
   });
   $(".refresh-feed").click(function(){
+    $(this).find('.fa').show();
+
     var feed_id = $(this).data('feed-id');
     $.post("/channel/<?= $this->channel->id ?>/settings", {
       action: 'refresh-feed',
