@@ -187,6 +187,10 @@ body.logged-out {
   margin-bottom: 8px;
 }
 
+.entry .content img {
+  display: block;
+}
+
 .entry .meta {
   text-decoration: none;  
   color: #999;
