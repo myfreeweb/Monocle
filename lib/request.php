@@ -22,9 +22,10 @@ function post($url, $params, $format='form') {
   }
   curl_setopt($ch, CURLOPT_POST, true);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+  $response = curl_exec($ch);
   return [
     'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
-    'body' => curl_exec($ch)
+    'body' => $response
   ];
 }
 
