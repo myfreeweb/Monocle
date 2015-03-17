@@ -229,6 +229,9 @@ body {
 .entry-actions .action:hover {
   color: #fdd42e;
 }
+.entry-actions .action .fa.loading {
+  -webkit-animation: pulsate 1s ease-out;
+}
 .entry-actions .action.active {
   color: #fdd42e;
 }
@@ -237,4 +240,10 @@ body {
   margin-top: 6px;
   margin-bottom: 6px;
   padding-top: 6px;
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.9, 0.9); opacity: 1.0;}
+    50% {opacity: 0.0;}
+    100% {-webkit-transform: scale(1.1, 1.1); opacity: 1.0;}
 }

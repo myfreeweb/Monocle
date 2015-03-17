@@ -22,7 +22,8 @@ $(function(){
   $(".entry-actions .action-like, .entry-actions .action-repost").click(function(){
 
     var btn = $(this);
-    btn.children('.fa').addClass('fa-spin');
+    //btn.children('.fa').addClass('fa-spin');
+    btn.children('.fa').addClass('loading');
 
     $.post('/micropub/'+$(this).data('action'), {
       url: $(this).data('url')
