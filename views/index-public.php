@@ -12,6 +12,7 @@
       <input type="submit" value="Sign In" class="btn btn-primary">
     </form>
 
+    <a href="<?= Config::$base_url ?>/" class="u-url"></a>
   </div>
 
 </div>

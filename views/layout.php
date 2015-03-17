@@ -47,7 +47,7 @@
     <script src="/js/jquery-1.7.1.min.js"></script>
   </head>
 
-<body role="document">
+<body role="document" class="<?= session('me') ? 'logged-in' : 'logged-out' ?>">
 
 <div class="page">
 
@@ -56,7 +56,7 @@
   </div>
 
   <div class="footer">
-    <div class="nav">
+    <div class="nav" <?= $this->page == 'index-public' ? 'style="display:none"' : '' ?>>
       <ul class="nav navbar-nav">
 
         <li><a href="/">Home</a></li>

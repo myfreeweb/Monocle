@@ -3,6 +3,14 @@ body {
   background: #fffbeb;
 }
 
+body.logged-out {
+  background: white;
+}
+.logged-out .jumbotron {
+  background-color: #fffbeb;
+  border: 1px #fff2bc solid;
+}
+
 .header {
   font-family:; "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 22px;
