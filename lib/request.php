@@ -20,7 +20,12 @@ function post($url, $params, $format='form') {
   } else {
     $body = http_build_query($params);
   }
-  return curl_exec($ch);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+  return [
+    'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+    'body' => curl_exec($ch)
+  ];
 }
 
 function set_user_agent(&$ch) {

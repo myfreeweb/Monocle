@@ -41,6 +41,11 @@ class FeedTask {
         // re-subscribe if the expiration date is coming up soon
         if($feed->push_subscribed == 0
            || ($feed->push_expiration && strtotime($feed->push_expiration) - 300 < time())) {
+
+          echo "Attempting to subscribe to the hub!\n";
+          echo "Hub: " . $feed->push_hub_url . "\n";
+          echo "Topic: " . $feed->push_topic_url . "\n";
+
           // This will cause the hub to make a GET request to the callback URL which we will to verify
           $response = request\post($feed->push_hub_url, [
             'hub.mode' => 'subscribe',
@@ -48,8 +53,8 @@ class FeedTask {
             'hub.callback' => Config::$base_url . '/push/feed/' . $feed->hash
           ]);
           echo "Hub responded:\n";
-          echo $response;
-          echo "\n";
+          echo $response['status']."\n";
+          echo $response['body']."\n";
         }
 
         $feed->save();
