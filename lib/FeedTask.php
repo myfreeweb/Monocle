@@ -60,6 +60,12 @@ class FeedTask {
               $entry_mf2 = feeds\parse_mf2($entry_html, $entry_url);
               $entry_mf2 = $entry_mf2['items'][0];
 
+              if(!Mf2\isMicroformat($entry_mf2))
+                continue;
+              
+              if(!in_array('h-entry', $entry_mf2['type']))
+                continue;
+
               if(!($entry = ORM::for_table('entries')->where('feed_id',$feed->id)->where('url',$entry_url)->find_one())) {
                 $entry = ORM::for_table('entries')->create();
                 $entry->feed_id = $feed->id;
@@ -103,6 +109,7 @@ class FeedTask {
                 }
               }
 
+              // Set the date published to now if none was found in the entry
               if(!$entry->date_published) {
                 $entry->date_published = date('Y-m-d H:i:s');
               }
@@ -129,14 +136,17 @@ class FeedTask {
                 $entry->audio_url = Mf2\getPlaintext($entry_mf2, 'audio');
 
               $author_mf2 = false;
+              print_r($entry_mf2);
               if(Mf2\hasProp($entry_mf2, 'author')) {
                 $author_mf2 = $entry_mf2['properties']['author'][0];
               } elseif(Mf2\hasProp($info, 'author')) {
                 $author_mf2 = $info['properties']['author'][0];
               }
-              $entry->author_name = Mf2\getPlaintext($author_mf2, 'name');
-              $entry->author_url = Mf2\getPlaintext($author_mf2, 'url');
-              $entry->author_photo = Mf2\getPlaintext($author_mf2, 'photo');
+              if($author_mf2) {
+                $entry->author_name = Mf2\getPlaintext($author_mf2, 'name');
+                $entry->author_url = Mf2\getPlaintext($author_mf2, 'url');
+                $entry->author_photo = Mf2\getPlaintext($author_mf2, 'photo');
+              }
 
               if(Mf2\hasProp($entry_mf2, 'like'))
                 $entry->num_likes = count($entry_mf2['properties']['like']);
