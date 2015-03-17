@@ -1,4 +1,7 @@
-<div class="entry">
+<div class="entry-context"<?= $this->entry->in_reply_to_url ? '' : ' style="display:none;"' ?>>
+  In reply to <a href="<?= $this->entry->in_reply_to_url ?>"><?= friendly_url($this->entry->in_reply_to_url) ?></a>
+</div>
+<div class="entry<?= $this->entry->in_reply_to_url ? ' has-context' : '' ?>">
   <div class="author">
     <div class="photo">
       <img src="<?= $this->entry->author_photo ?>" width="48">

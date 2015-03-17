@@ -111,8 +111,16 @@ class FeedTask {
                 $entry->like_of_url = Mf2\getPlaintext($entry_mf2, 'like-of');
               if(Mf2\getPlaintext($entry_mf2, 'repost-of'))
                 $entry->repost_of_url = Mf2\getPlaintext($entry_mf2, 'repost-of');
-              if(Mf2\getPlaintext($entry_mf2, 'in-reply-to'))
+
+              // TODO: move this to a helper
+              // finds the URL for a property if the property is a plain string or a nested h-cite
+              if(Mf2\getPlaintext($entry_mf2, 'in-reply-to')) {
+                if(Mf2\isMicroformat($entry_mf2['properties']['in-reply-to'][0]))
+                  $entry->in_reply_to_url = $entry_mf2['properties']['in-reply-to'][0]['properties']['url'][0];
+                else
                 $entry->in_reply_to_url = Mf2\getPlaintext($entry_mf2, 'in-reply-to');
+              }
+
               if(Mf2\getPlaintext($entry_mf2, 'photo'))
                 $entry->photo_url = Mf2\getPlaintext($entry_mf2, 'photo');
               if(Mf2\getPlaintext($entry_mf2, 'video'))
