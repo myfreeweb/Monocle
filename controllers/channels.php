@@ -123,7 +123,6 @@ $app->post('/channels/add_feed', function($format='json') use($app) {
     $feed = ORM::for_table('feeds')->where('feed_url', $params['url'])->find_one();
     if(!$feed) {
       $feed = db\new_feed();
-      $feed->name = friendly_url($params['url']);
       $feed->feed_url = $params['url'];
       $feed->save();
     }
