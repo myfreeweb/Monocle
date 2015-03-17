@@ -92,7 +92,7 @@ class FeedTask {
               if(Mf2\getPlaintext($entry_mf2, 'like-of'))
                 $entry->like_of_url = Mf2\getPlaintext($entry_mf2, 'like-of');
               if(Mf2\getPlaintext($entry_mf2, 'repost-of'))
-                $entry->repo_of_url = Mf2\getPlaintext($entry_mf2, 'like-of');
+                $entry->repost_of_url = Mf2\getPlaintext($entry_mf2, 'repost-of');
               if(Mf2\getPlaintext($entry_mf2, 'in-reply-to'))
                 $entry->in_reply_to_url = Mf2\getPlaintext($entry_mf2, 'in-reply-to');
               if(Mf2\getPlaintext($entry_mf2, 'photo'))
@@ -211,7 +211,7 @@ class FeedTask {
     } catch(Exception $e) {
       echo "Error processing feed!\n";
       echo $e->getMessage() . "\n";
-      print_r($e->backtrace);
+      echo $e->getTraceAsString() . "\n";
     }
 
     // mark complete
