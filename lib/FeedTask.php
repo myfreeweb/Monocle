@@ -28,7 +28,6 @@ class FeedTask {
       $mf2 = feeds\parse_mf2($html, $feed->feed_url);
 
       // check for PuSH info and subscribe to the hub if found
-      /*
       if(k($mf2, 'rels') && k($mf2['rels'], 'hub') && k($mf2['rels'], 'self')) {
         $feed->push_hub_url = k($mf2['rels'], 'hub')[0];
         $feed->push_topic_url = k($mf2['rels'], 'self')[0];
@@ -38,9 +37,8 @@ class FeedTask {
           'hub.topic' => $feed->push_topic_url,
           'hub.callback' => Config::$base_url . '/push/feed/' . $feed->hash
         ]);
-        // This will cause the hub to make a GET request to the callback URL which we'll need to verify
+        // This will cause the hub to make a GET request to the callback URL which we will to verify
       }
-      */
 
       // check if there are any h-entry posts
       $info = feeds\find_feed_info($mf2);
