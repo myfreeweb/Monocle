@@ -23,6 +23,20 @@ function get_alternates(&$data) {
   }
 }
 
+// Compares name, summary and content values to determine if they are equal
+function content_is_equal($a, $b) {
+  // remove html tags
+  $a = strip_tags($a);
+  $b = strip_tags($b);
+  // remove encoded entities
+  $a = preg_replace('/&#?[a-z0-9]{2,8};/i', '', $a);
+  $b = preg_replace('/&#?[a-z0-9]{2,8};/i', '', $b);
+  // remove all non-alphanumeric chars
+  $a = preg_replace('/[^a-zA-Z0-9]/', '', strtolower($a));
+  $b = preg_replace('/[^a-zA-Z0-9]/', '', strtolower($b));
+  return $a == $b;
+}
+
 // Given a parsed microformat data structure, find the feed on the page.
 // This is meant to follow
 // * http://indiewebcamp.com/feed#How_To_Consume

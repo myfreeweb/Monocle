@@ -7,7 +7,7 @@ CREATE TABLE `channel_entries` (
   `entry_published` datetime DEFAULT NULL,
   `date_created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -70,18 +70,29 @@ CREATE TABLE `entries` (
   PRIMARY KEY (`id`),
   KEY `feed_id` (`feed_id`),
   KEY `url` (`feed_id`,`url`(190))
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `entries_tags` (
+CREATE TABLE `entry_syndications` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_id` bigint(20) DEFAULT NULL,
+  `syndication_url` text,
+  PRIMARY KEY (`id`),
+  KEY `url` (`syndication_url`(190)),
+  KEY `entry_id` (`entry_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entry_tags` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `entry_id` bigint(11) DEFAULT NULL,
   `tag` varchar(190) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `entry_id` (`entry_id`),
   KEY `tag` (`tag`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

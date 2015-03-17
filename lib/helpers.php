@@ -130,7 +130,8 @@ function micropub_post($endpoint, $params, $access_token, $h='entry') {
   return array(
     'response' => $response,
     'error' => $error,
-    'curlinfo' => curl_getinfo($ch)
+    'curlinfo' => curl_getinfo($ch),
+    'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE)
   );
 }
 

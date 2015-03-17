@@ -79,6 +79,8 @@ function get_entries_for_channel($channel_id) {
   return ORM::for_table('entries')
     ->join('channel_entries', ['channel_entries.entry_id','=','entries.id'])
     ->where('channel_entries.channel_id', $channel_id)
+    ->order_by_desc('entries.date_published')
+    ->limit(30)
     ->find_many();
 }
 

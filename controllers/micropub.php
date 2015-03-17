@@ -1,5 +1,64 @@
 <?php
 
+$app->post('/micropub/like', function() use($app){
+  if($user=require_login_json($app)) {
+    $params = $app->request()->params();
+
+    $mp_params = [
+      'like-of' => $params['url']
+    ];
+
+    $r = micropub_post($user->micropub_endpoint, $mp_params, $user->micropub_access_token);
+    $response = $r['response'];
+
+    if($response && preg_match('/Location: (.+)/', $response, $match)) {
+      $location = $match[1];
+      $user->micropub_success = 1;
+      $user->save();
+    } else {
+      $location = false;
+    }
+
+    json_response($app, [
+      'location' => $location,
+      'status' => $r['status'],
+      'response' => trim($response),
+      'error' => $r['error']
+    ]);
+  }
+});
+
+$app->post('/micropub/repost', function() use($app){
+  if($user=require_login_json($app)) {
+    $params = $app->request()->params();
+
+    $mp_params = [
+      'repost-of' => $params['url']
+    ];
+
+    $r = micropub_post($user->micropub_endpoint, $mp_params, $user->micropub_access_token);
+    $response = $r['response'];
+
+    if($response && preg_match('/Location: (.+)/', $response, $match)) {
+      $location = $match[1];
+      $user->micropub_success = 1;
+      $user->save();
+    } else {
+      $location = false;
+    }
+
+    json_response($app, [
+      'location' => $location,
+      'status' => $r['status'],
+      'response' => trim($response),
+      'error' => $r['error']
+    ]);
+  }
+});
+
+
+/////
+
 $app->post('/micropub/post', function() use($app){
   if($user=require_login($app)) {
     $params = $app->request()->params();
@@ -22,7 +81,7 @@ $app->post('/micropub/post', function() use($app){
 
     $app->response()['Content-Type'] = 'application/json';
     $app->response()->body(json_encode(array(
-      'response' => htmlspecialchars($response),
+      'response' => htmlspecialchars(trim($response)),
       'location' => $location,
       'error' => $r['error'],
       'curlinfo' => $r['curlinfo'],

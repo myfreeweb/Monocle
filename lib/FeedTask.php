@@ -66,6 +66,7 @@ class FeedTask {
                 $entry->url = $entry_url;
               }
 
+              // TODO: decide whether to store the name, summary and content depending on whether they are unique
               $entry->name = Mf2\getPlaintext($entry_mf2, 'name');
               $entry->summary = Mf2\getPlaintext($entry_mf2, 'summary');
               $entry->content = Mf2\getHtml($entry_mf2, 'content');
@@ -118,7 +119,7 @@ class FeedTask {
               if(Mf2\hasProp($entry_mf2, 'comment'))
                 $entry->num_comments = count($entry_mf2['properties']['comment']);
               if(Mf2\hasProp($entry_mf2, 'rsvp'))
-                $entry->num_rsvps = count($entry_mf2['properties']['rsvps']);
+                $entry->num_rsvps = count($entry_mf2['properties']['rsvp']);
               
               $entry->date_retrieved = date('Y-m-d H:i:s');
               $entry->date_updated = date('Y-m-d H:i:s');
@@ -130,8 +131,8 @@ class FeedTask {
                   return strtolower(trim($c, '#'));
                 }, $entry_mf2['properties']['category']));
                 foreach($entry_tags as $tag) {
-                  if(!ORM::for_table('entries_tags')->where('entry_id', $entry->id)->where('tag', $tag)->find_one()) {
-                    $et = ORM::for_table('entries_tags')->create();
+                  if(!ORM::for_table('entry_tags')->where('entry_id', $entry->id)->where('tag', $tag)->find_one()) {
+                    $et = ORM::for_table('entry_tags')->create();
                     $et->entry_id = $entry->id;
                     $et->tag = $tag;
                     $et->save();
@@ -142,6 +143,23 @@ class FeedTask {
               }
 
               // TODO: Remove tags that are no longer found in the entry
+
+
+              // Add syndication URLs
+              if(Mf2\hasProp($entry_mf2, 'syndication')) {
+                $syndications = array_unique($entry_mf2['properties']['syndication']);
+                foreach($syndications as $syn) {
+                  if(!ORM::for_table('entry_syndications')->where('entry_id', $entry->id)->where('syndication_url', $syn)->find_one()) {
+                    $es = ORM::for_table('entry_syndications')->create();
+                    $es->entry_id = $entry->id;
+                    $es->syndication_url = $syn;
+                    $es->save();
+                  }
+                }
+              }
+
+              // TODO: Remove urls that are no longer found in the entry
+
 
 
               // Run through all the channels that have this feed and add the entry to each channel
