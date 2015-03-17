@@ -6,6 +6,9 @@
     <div class="loading"><img src="/images/spinner.gif" width="54" height="55"></div>
     <ul></ul>
   </div>
+  <div id="no_feeds_discovered" style="display: none;">
+    <p>No feeds were found at this URL</p>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -20,16 +23,21 @@ $(function(){
       $.post('/channels/discover', {
         url: $("#subscribe_url").val()
       }, function(response) {
-        $("#feeds_discovered .loading").hide();
-        $("#subscribe_btn").addClass("btn-success");
-        $(response.feeds).each(function(i,feed){
-          var filter = '<span><button class="btn btn-default filter-btn" data-id="'+i+'"><i class="fa fa-search"></i></button></span>';
-          if(feed.enabled == false) { 
-            filter = '';
-          }
-          $("#feeds_discovered ul").append('<li><div class="form-inline"><button data-id="'+i+'" class="btn btn-success subscribe'+(feed.enabled ? '' : ' disabled')+'" data-url="'+feed.url+'">'+feed.icon+' '+feed.display_url+'</button> '+filter+'</div></li>');
-        });
-        bind_subscribe_buttons();
+        if(response.feeds.length > 0) {
+          $("#feeds_discovered .loading").hide();
+          $("#subscribe_btn").addClass("btn-success");
+          $(response.feeds).each(function(i,feed){
+            var filter = '<span><button class="btn btn-default filter-btn" data-id="'+i+'"><i class="fa fa-search"></i></button></span>';
+            if(feed.enabled == false) { 
+              filter = '';
+            }
+            $("#feeds_discovered ul").append('<li><div class="form-inline"><button data-id="'+i+'" class="btn btn-success subscribe'+(feed.enabled ? '' : ' disabled')+'" data-url="'+feed.url+'">'+feed.icon+' '+feed.display_url+'</button> '+filter+'</div></li>');
+          });
+          bind_subscribe_buttons();
+        } else {
+          $("#no_feeds_discovered").show();
+          $("#feeds_discovered").hide();
+        }
       });
     }
   });
