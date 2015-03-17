@@ -216,6 +216,7 @@ body.logged-out {
 
 .entry .content img {
   display: block;
+  max-width: 100%;
 }
 
 .entry .meta {
