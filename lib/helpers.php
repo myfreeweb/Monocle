@@ -17,7 +17,7 @@ function friendly_date($date_string, $tz_offset) {
   elseif($tz_offset < 0)
     $date->sub(new DateInterval('PT'.abs($tz_offset).'S'));
   $tz = ($tz_offset < 0 ? '-' : '+') . sprintf('%02d:%02d', abs($tz_offset/60/60), ($tz_offset/60)%60);
-  return $date->format('F m, Y g:ia') . ' ' . $tz;
+  return $date->format('F j, Y g:ia') . ' ' . $tz;
 }
 
 // Input: Any URL or string like "aaronparecki.com"
