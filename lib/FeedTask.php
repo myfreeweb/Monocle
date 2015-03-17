@@ -32,12 +32,19 @@ class FeedTask {
         $feed->push_hub_url = k($mf2['rels'], 'hub')[0];
         $feed->push_topic_url = k($mf2['rels'], 'self')[0];
 
-        request\post($feed->push_hub_url, [
-          'hub.mode' => 'subscribe',
-          'hub.topic' => $feed->push_topic_url,
-          'hub.callback' => Config::$base_url . '/push/feed/' . $feed->hash
-        ]);
-        // This will cause the hub to make a GET request to the callback URL which we will to verify
+        // re-subscribe if the expiration date is coming up soon
+        if($feed->push_subscribed == 0
+           || ($feed->push_expiration && strtotime($feed->push_expiration) - 300 < time())) {
+          // This will cause the hub to make a GET request to the callback URL which we will to verify
+          $response = request\post($feed->push_hub_url, [
+            'hub.mode' => 'subscribe',
+            'hub.topic' => $feed->push_topic_url,
+            'hub.callback' => Config::$base_url . '/push/feed/' . $feed->hash
+          ]);
+          echo "Hub responded:\n";
+          echo $response;
+          echo "\n";
+        }
       }
 
       // check if there are any h-entry posts
