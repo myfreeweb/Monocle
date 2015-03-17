@@ -7,20 +7,14 @@
     <div class="name"><?= $this->entry->author_name ?></div>
   </div>
   <div class="clear"></div>
-  <? if($this->entry->name && !feeds\content_is_equal($this->entry->name, $this->entry->content)): ?>
-    <h2 class="name">
-      <?= $this->entry->name ?>
-    </h2>
+  <? if($this->entry->name): ?>
+    <h2 class="name"><?= $this->entry->name ?></h2>
   <? endif; ?>
-  <? if($this->entry->summary && !feeds\content_is_equal($this->entry->name, $this->entry->summary)): ?>
-    <div class="summary">
-      <?= $this->entry->summary ?>
-    </div>
+  <? if($this->entry->summary): ?>
+    <div class="summary"><?= $this->entry->summary ?></div>
   <? endif; ?>
   <? if($this->entry->content): ?>
-    <div class="content">
-      <?= $this->entry->content ?>
-    </div>
+    <div class="content"><?= $this->entry->content ?></div>
   <? endif; ?>
   <? if($this->entry->audio_url): ?>
     <div class="audio">

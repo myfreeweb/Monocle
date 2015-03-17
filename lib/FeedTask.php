@@ -66,10 +66,28 @@ class FeedTask {
                 $entry->url = $entry_url;
               }
 
-              // TODO: decide whether to store the name, summary and content depending on whether they are unique
-              $entry->name = Mf2\getPlaintext($entry_mf2, 'name');
-              $entry->summary = Mf2\getPlaintext($entry_mf2, 'summary');
-              $entry->content = Mf2\getHtml($entry_mf2, 'content');
+              // Decide whether to store the name, summary and content depending on whether they are unique
+              $name = Mf2\getPlaintext($entry_mf2, 'name');
+              $summary = Mf2\getPlaintext($entry_mf2, 'summary');
+              $content = Mf2\getHtml($entry_mf2, 'content');
+              $content_text = Mf2\getPlaintext($entry_mf2, 'content');
+
+              // Store the name if it's different from the summary and the content
+              if(!feeds\content_is_equal($name, $summary) && !feeds\content_is_equal($name, $content_text)) {
+                $entry->name = $name;
+              } else {
+                $entry->name = '';
+              }
+
+              // Store the summary if it's different from the content
+              if(!feeds\content_is_equal($summary, $content_text)) {
+                $entry->summary = $summary;
+              } else {
+                $entry->summary = '';
+              }
+
+              $entry->content = $content;
+
 
               $date_string = Mf2\getPlaintext($entry_mf2, 'published');
               if($date_string) {
