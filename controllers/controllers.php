@@ -51,3 +51,19 @@ $app->get('/docs/?', function($format = 'html') use ($app) {
 
 });
 
+$app->get('/preview', function() use($app) {
+  if($user=require_login($app)) {
+    $params = $app->request()->params();
+    $res = $app->response();
+
+    $entry = ORM::for_table('entries')->where('url', $params['url'])->find_one();
+
+    ob_start();
+    render('preview-entry', [
+      'title' => 'Preview',
+      'entry' => $entry
+    ]);
+    $res->body(ob_get_clean());
+  }
+});
+

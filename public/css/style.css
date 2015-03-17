@@ -281,6 +281,16 @@ body.logged-out {
   margin-bottom: 6px;
   padding-top: 6px;
 }
+.entry-actions .syndications a {
+  color: #fdd42e;
+  font-size: 24px;
+  border: 0;
+  background: transparent;
+  margin-left: 6px;
+}
+.entry-actions .syndications a:hover {
+  color: #ffe370;
+}
 
 @-webkit-keyframes pulsate {
     0% {-webkit-transform: scale(0.9, 0.9); opacity: 1.0;}

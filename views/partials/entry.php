@@ -39,6 +39,12 @@
 </div>
 <div class="entry-actions" id="entry-actions-<?= $this->entry->id ?>">
 
+  <div class="syndications" style="float: right;">
+    <? foreach($this->syndications as $s): ?>
+      <?= partial('partials/syndication_url', ['syndication' => $s]) ?>
+    <?php endforeach; ?>
+  </div>
+
   <div class="button-row">
     <button class="action action-like" title="Like this post" data-action="like" data-url="<?= $this->entry->url ?>" data-id="<?= $this->entry->id ?>"><i class="fa fa-star"></i></button>
     <button class="action action-repost" title="Repost this" data-action="repost" data-url="<?= $this->entry->url ?>" data-id="<?= $this->entry->id ?>"><i class="fa fa-retweet"></i></button>

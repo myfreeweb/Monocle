@@ -12,7 +12,8 @@
 
   <? foreach($this->entries as $entry): ?>
     <?= partial('partials/entry', [
-      'entry' => $entry
+      'entry' => $entry,
+      'syndications' => ORM::for_table('entry_syndications')->where('entry_id', $entry->id)->find_many()
     ]) ?>
   <? endforeach; ?>
 

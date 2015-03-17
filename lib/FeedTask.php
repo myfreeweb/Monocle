@@ -155,6 +155,8 @@ class FeedTask {
                 $entry->author_name = Mf2\getPlaintext($author_mf2, 'name');
                 $entry->author_url = Mf2\getPlaintext($author_mf2, 'url');
                 $entry->author_photo = Mf2\getPlaintext($author_mf2, 'photo');
+              } else {
+                echo "NO AUTHOR WAS FOUND!!\n";
               }
 
               if(Mf2\hasProp($entry_mf2, 'like'))
