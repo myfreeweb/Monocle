@@ -53,6 +53,8 @@ class FeedTask {
           $entry_url = Mf2\getPlaintext($e, 'url');
           if($entry_url) {
 
+            echo $entry_url . "\n";
+
             // Parse the entry for all required info and store in the "entries" table
             $entry_html = request\get_url($entry_url);
             if($entry_html) {
@@ -84,7 +86,7 @@ class FeedTask {
               $content_text = Mf2\getPlaintext($entry_mf2, 'content');
 
               // Store the name if it's different from the summary and the content
-              if(!feeds\content_is_equal($name, $summary) && !feeds\content_is_equal($name, $content_text)) {
+              if(($summary && !feeds\content_is_equal($name, $summary)) && ($content && !feeds\content_is_equal($name, $content_text))) {
                 $entry->name = $name;
                 echo "Entry has a name: $name\n";
               } else {
@@ -92,7 +94,7 @@ class FeedTask {
               }
 
               // Store the summary if it's different from the content
-              if(!feeds\content_is_equal($summary, $content_text)) {
+              if($summary && !feeds\content_is_equal($summary, $content_text)) {
                 $entry->summary = $summary;
                 echo "Entry has a summary\n";
               } else {
