@@ -28,9 +28,15 @@ class FeedTask {
       $mf2 = feeds\parse_mf2($html, $feed->feed_url);
 
       // check for PuSH info and subscribe to the hub if found
-      if(k($mf2, 'rels') && k($mf2['rels'], 'hub') && k($mf2['rels'], 'self')) {
+      if(k($mf2, 'rels') && k($mf2['rels'], 'hub')) {
+
         $feed->push_hub_url = k($mf2['rels'], 'hub')[0];
-        $feed->push_topic_url = k($mf2['rels'], 'self')[0];
+
+        // Use the self if specified, otherwise fall back to the feed URL
+        if(k($mf2['rels'], 'self'))
+          $feed->push_topic_url = k($mf2['rels'], 'self')[0];
+        else 
+          $feed->push_topic_url = $feed->feed_url;
 
         // re-subscribe if the expiration date is coming up soon
         if($feed->push_subscribed == 0
@@ -45,6 +51,8 @@ class FeedTask {
           echo $response;
           echo "\n";
         }
+
+        $feed->save();
       }
 
       // check if there are any h-entry posts
