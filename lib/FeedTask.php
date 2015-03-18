@@ -50,7 +50,8 @@ class FeedTask {
           $response = request\post($feed->push_hub_url, [
             'hub.mode' => 'subscribe',
             'hub.topic' => $feed->push_topic_url,
-            'hub.callback' => Config::$base_url . '/push/feed/' . $feed->hash
+            // http for now
+            'hub.callback' => 'http://' . Config::$hostname . '/push/feed/' . $feed->hash
           ]);
           echo "Hub responded:\n";
           echo $response['status']."\n";
