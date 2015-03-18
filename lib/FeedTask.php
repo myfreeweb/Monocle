@@ -104,7 +104,7 @@ class FeedTask {
               $content_text = Mf2\getPlaintext($entry_mf2, 'content');
 
               // Store the name if it's different from the summary and the content
-              if(($summary && !feeds\content_is_equal($name, $summary)) && ($content && !feeds\content_is_equal($name, $content_text))) {
+              if((!feeds\content_is_equal($name, $summary)) && (!feeds\content_is_equal($name, $content_text))) {
                 $entry->name = $name;
                 echo "Entry has a name: $name\n";
               } else {
@@ -156,12 +156,18 @@ class FeedTask {
                 $entry->in_reply_to_url = Mf2\getPlaintext($entry_mf2, 'in-reply-to');
               }
 
-              if(Mf2\getPlaintext($entry_mf2, 'photo'))
+              if(Mf2\getPlaintext($entry_mf2, 'photo')) {
                 $entry->photo_url = Mf2\getPlaintext($entry_mf2, 'photo');
-              if(Mf2\getPlaintext($entry_mf2, 'video'))
+              }
+
+              if(Mf2\getPlaintext($entry_mf2, 'video')) {
                 $entry->video_url = Mf2\getPlaintext($entry_mf2, 'video');
-              if(Mf2\getPlaintext($entry_mf2, 'audio'))
+              }
+
+              if(Mf2\getPlaintext($entry_mf2, 'audio')) {
                 $entry->audio_url = Mf2\getPlaintext($entry_mf2, 'audio');
+              }
+
 
               $author_mf2 = false;
               if(Mf2\hasProp($entry_mf2, 'author')) {

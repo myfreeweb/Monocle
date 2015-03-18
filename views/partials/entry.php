@@ -10,20 +10,42 @@
     <div class="name"><?= $this->entry->author_name ?></div>
   </div>
   <div class="clear"></div>
+
   <? if($this->entry->name): ?>
     <h2 class="name"><?= $this->entry->name ?></h2>
   <? endif; ?>
+
+  <? /* 
+  TODO: better checking of whether the image exists in the post 
+    * check for src="..." src='...' and src=...
+    * check for images inside object tags
+  */ ?>
+  <? if($this->entry->photo_url && strpos($this->entry->content, $this->entry->photo_url) === false): ?>
+    <img class="photo" src="<?= $this->entry->photo_url ?>">
+  <? endif; ?>
+
   <? if($this->entry->summary): ?>
     <div class="summary"><?= $this->entry->summary ?></div>
   <? endif; ?>
+
   <? if($this->entry->content): ?>
     <div class="content"><?= $this->entry->content ?></div>
   <? endif; ?>
-  <? if($this->entry->audio_url): ?>
+
+  <? /* TODO: better checking of whether the audio exists in the post */ ?>
+  <? if($this->entry->audio_url && strpos($this->entry->content, $this->entry->audio_url) === false): ?>
     <div class="audio">
       <audio src="<?= $this->entry->audio_url ?>" controls="controls" style="width: 100%"></audio>
     </div>
   <? endif; ?>
+
+  <? /* TODO: better checking of whether the video exists in the post */ ?>
+  <? if($this->entry->video_url && strpos($this->entry->content, $this->entry->video_url) === false): ?>
+    <div class="video">
+      <video controls="controls" style="width: 100%"><source src="<?= $this->entry->video_url ?>" type="video/mp4"></video>
+    </div>
+  <? endif; ?>
+
   <div class="meta">
     <ul>
       <li><a href="<?= $this->entry->url ?>"><?= friendly_date($this->entry->date_published, $this->entry->timezone_offset) ?></a></li>
