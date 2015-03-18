@@ -67,7 +67,7 @@
                 </tr>
                 <tr>
                   <td>Subscribed:</td>
-                  <td><?= $feed['subscribed'] ? 'Yes' : 'No' ?></td>
+                  <td><?= $feed['push_subscribed'] ? 'Yes' : 'No' ?></td>
                 </tr>
                 <tr>
                   <td>Last Ping Received:</td>

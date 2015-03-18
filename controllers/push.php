@@ -22,7 +22,7 @@ $app->get('/push/feed/:hash', function($hash) use($app){
 
       $feed->push_subscribed = 1;
       if(k($params, 'hub_lease_seconds'))
-        $feed->push_expiration = date('Y-m-d H:i:s', strtotime(time() + $params['hub_lease_seconds']));
+        $feed->push_expiration = date('Y-m-d H:i:s', time() + $params['hub_lease_seconds']);
       $feed->save();
 
       echo $params['hub_challenge'];
