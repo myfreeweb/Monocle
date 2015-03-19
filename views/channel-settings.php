@@ -151,6 +151,7 @@ $(function(){
   });
   $(".refresh-feed").click(function(){
     $(this).find('.fa').show();
+    $(this).attr("disabled","disabled");
 
     var feed_id = $(this).data('feed-id');
     $.post("/channel/<?= $this->channel->id ?>/settings", {

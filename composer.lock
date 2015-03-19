@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "38dcb562599a43ed8fdac984baca3427",
+    "hash": "c0098e11390afcce4332bca457a7d8d7",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -48,16 +48,16 @@
         },
         {
             "name": "indieauth/client",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/indieweb/indieauth-client-php.git",
-                "reference": "f979f8ee0fc6daaa6a393e7afdac894000d09544"
+                "reference": "6f9303cb79de7f650018cb8a317798bd4bfc2fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/f979f8ee0fc6daaa6a393e7afdac894000d09544",
-                "reference": "f979f8ee0fc6daaa6a393e7afdac894000d09544",
+                "url": "https://api.github.com/repos/indieweb/indieauth-client-php/zipball/6f9303cb79de7f650018cb8a317798bd4bfc2fb9",
+                "reference": "6f9303cb79de7f650018cb8a317798bd4bfc2fb9",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                 }
             ],
             "description": "IndieAuth Client Library",
-            "time": "2014-10-06 07:37:10"
+            "time": "2015-03-18 20:00:10"
         },
         {
             "name": "indieweb/link-rel-parser",
@@ -188,50 +188,6 @@
                 "query builder"
             ],
             "time": "2013-12-12 10:25:27"
-        },
-        {
-            "name": "kumatch/offsettimezone",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kumatch/php-offsettimezone.git",
-                "reference": "f64d2c1f571b2cdcc7eebb53d8544de9a924de6f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kumatch/php-offsettimezone/zipball/f64d2c1f571b2cdcc7eebb53d8544de9a924de6f",
-                "reference": "f64d2c1f571b2cdcc7eebb53d8544de9a924de6f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Kumatch\\OffsetTimeZone": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Yosuke Kumakura",
-                    "homepage": "https://github.com/kumatch"
-                }
-            ],
-            "description": "Create a DateTimeZone object by offset",
-            "homepage": "https://github.com/kumatch/php-offsettimezone",
-            "keywords": [
-                "date",
-                "timezone"
-            ],
-            "time": "2013-09-24 15:41:29"
         },
         {
             "name": "mf2/mf2",

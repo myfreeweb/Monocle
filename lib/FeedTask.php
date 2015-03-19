@@ -24,27 +24,45 @@ class FeedTask {
 
     try {
 
-      $html = request\get_url($feed->feed_url);
+      $response = request\get_url($feed->feed_url, true);
+      $header_rels = IndieWeb\http_rels($response['headers']);
+      $html = $response['body'];
       $mf2 = feeds\parse_mf2($html, $feed->feed_url);
+      $hub_url = false;
+
+print_r($header_rels);
+      if(k($header_rels, 'hub')) {
+        $hub_url = $header_rels['hub'][0];
+        $hub_url_source = 'http';
+      } elseif(k($mf2, 'rels') && k($mf2['rels'], 'hub')) {
+        $hub_url = k($mf2, 'rels') && k($mf2['rels'], 'hub');
+        $hub_url_source = 'html';
+      }
 
       // check for PuSH info and subscribe to the hub if found
-      if(k($mf2, 'rels') && k($mf2['rels'], 'hub')) {
+      if($hub_url) {
 
-        $feed->push_hub_url = k($mf2['rels'], 'hub')[0];
+        if(k($header_rels, 'self')) {
+          $self_url = $header_rels['self'][0];
+          $self_url_source = 'http';
+        } elseif(k($mf2, 'rels') && k($mf2['rels'], 'self')) {
+          $self_url = k($mf2['rels'], 'self');
+          $self_url_source = 'html';
+        } else {
+          $self_url = $feed->feed_url;
+          $self_url_source = 'default';
+        }
 
-        // Use the self if specified, otherwise fall back to the feed URL
-        if(k($mf2['rels'], 'self'))
-          $feed->push_topic_url = k($mf2['rels'], 'self')[0];
-        else 
-          $feed->push_topic_url = $feed->feed_url;
+        $feed->push_hub_url = $hub_url;
+        $feed->push_topic_url = $self_url;
 
         // re-subscribe if the expiration date is coming up soon
-        if($feed->push_subscribed == 0
+        if(true || $feed->push_subscribed == 0
            || ($feed->push_expiration && strtotime($feed->push_expiration) - 300 < time())) {
 
           echo "Attempting to subscribe to the hub!\n";
-          echo "Hub: " . $feed->push_hub_url . "\n";
-          echo "Topic: " . $feed->push_topic_url . "\n";
+          echo "Hub: " . $feed->push_hub_url . " (found in $hub_url_source)\n";
+          echo "Topic: " . $feed->push_topic_url . " (found in $self_url_source)\n";
 
           // This will cause the hub to make a GET request to the callback URL which we will to verify
           $response = request\post($feed->push_hub_url, [

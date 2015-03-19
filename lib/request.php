@@ -1,11 +1,31 @@
 <?php
 namespace request;
 
-function get_url($url) {
+function get_url($url, $include_headers=false) {
   $ch = curl_init($url);
   set_user_agent($ch);
   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  if($include_headers) {
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $response = curl_exec($ch);
+    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    return [
+      'headers' => trim(substr($response, 0, $header_size)),
+      'body' => substr($response, $header_size)
+    ];
+  } else {
+    return curl_exec($ch);
+  }
+}
+
+function get_head($url) {
+  $ch = curl_init($url);
+  set_user_agent($ch);
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HEADER, true);
+  curl_setopt($ch, CURLOPT_NOBODY, true);
   return curl_exec($ch);
 }
 
