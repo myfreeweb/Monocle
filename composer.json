@@ -5,6 +5,7 @@
     "saltybeagle/savant3": "dev-master",
     "j4mie/idiorm": "1.4.*",
     "mf2/mf2": "0.2.*",
+    "firebase/php-jwt": "dev-master",
     "barnabywalters/mf-cleaner": "0.*",
     "indieauth/client": "0.1.*",
     "pda/pheanstalk": "dev-master",

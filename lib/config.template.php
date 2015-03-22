@@ -9,6 +9,8 @@ class Config {
   public static $dbUsername = 'reader';
   public static $dbPassword = '';
 
+  public static $jwtSecret = 'xxx';
+
   public static $beanstalkServer = '127.0.0.1';
   public static $beanstalkPort = 11300;
 

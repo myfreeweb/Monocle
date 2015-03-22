@@ -30,7 +30,6 @@ class FeedTask {
       $mf2 = feeds\parse_mf2($html, $feed->feed_url);
       $hub_url = false;
 
-print_r($header_rels);
       if(k($header_rels, 'hub')) {
         $hub_url = $header_rels['hub'][0];
         $hub_url_source = 'http';
@@ -57,7 +56,7 @@ print_r($header_rels);
         $feed->push_topic_url = $self_url;
 
         // re-subscribe if the expiration date is coming up soon
-        if(true || $feed->push_subscribed == 0
+        if($feed->push_subscribed == 0
            || ($feed->push_expiration && strtotime($feed->push_expiration) - 300 < time())) {
 
           echo "Attempting to subscribe to the hub!\n";

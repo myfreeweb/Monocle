@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c0098e11390afcce4332bca457a7d8d7",
+    "hash": "d5d63c73003f72cc02e8ebd21a564511",
     "packages": [
         {
             "name": "barnabywalters/mf-cleaner",
@@ -45,6 +45,51 @@
             ],
             "description": "Cleans up microformats2 array structures",
             "time": "2014-10-06 23:11:15"
+        },
+        {
+            "name": "firebase/php-jwt",
+            "version": "dev-master",
+            "target-dir": "Firebase/PHP-JWT",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firebase/php-jwt.git",
+                "reference": "724b1fcfb88b7bbbbd92fddd5deb7518c3988267"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/724b1fcfb88b7bbbbd92fddd5deb7518c3988267",
+                "reference": "724b1fcfb88b7bbbbd92fddd5deb7518c3988267",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "Authentication/",
+                    "Exceptions/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Neuman Vong",
+                    "email": "neuman+pear@twilio.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anant Narayanan",
+                    "email": "anant@php.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
+            "homepage": "https://github.com/firebase/php-jwt",
+            "time": "2015-02-12 15:57:00"
         },
         {
             "name": "indieauth/client",
@@ -478,6 +523,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "saltybeagle/savant3": 20,
+        "firebase/php-jwt": 20,
         "pda/pheanstalk": 20
     },
     "prefer-stable": false,

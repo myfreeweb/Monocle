@@ -12,6 +12,10 @@
 
   <input type="text" class="form-control" id="new-channel" placeholder="Add new channel">
 
+
+  <div style="float: right; margin-top: 30px;">
+    <a href="/home?start">Add to Homescreen</a>
+  </div>
 </div>
 <script>
 $(function(){

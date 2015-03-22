@@ -11,6 +11,7 @@ function get_url($url, $include_headers=false) {
     $response = curl_exec($ch);
     $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     return [
+      'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
       'headers' => trim(substr($response, 0, $header_size)),
       'body' => substr($response, $header_size)
     ];
@@ -26,7 +27,11 @@ function get_head($url) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HEADER, true);
   curl_setopt($ch, CURLOPT_NOBODY, true);
-  return curl_exec($ch);
+  $headers = curl_exec($ch);
+  return [
+    'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
+    'headers' => trim($headers)
+  ];
 }
 
 function post($url, $params, $format='form') {
@@ -42,10 +47,13 @@ function post($url, $params, $format='form') {
   }
   curl_setopt($ch, CURLOPT_POST, true);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
+  curl_setopt($ch, CURLOPT_HEADER, true);
   $response = curl_exec($ch);
+  $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
   return [
     'status' => curl_getinfo($ch, CURLINFO_HTTP_CODE),
-    'body' => $response
+    'headers' => trim(substr($response, 0, $header_size)),
+    'body' => substr($response, $header_size)
   ];
 }
 
