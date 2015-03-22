@@ -23,7 +23,7 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
-    <!-- icon stuff from www.favicongenerator.org -->
+    <!-- icon stuff from www.favicon-generator.org -->
     <link rel="apple-touch-icon" sizes="57x57" href="/images/icons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/icons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/images/icons/apple-icon-72x72.png">
