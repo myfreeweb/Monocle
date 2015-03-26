@@ -52,11 +52,17 @@ class FeedTask {
           $self_url_source = 'default';
         }
 
+        // Keep track of what the hub URL was last time we saw it
+        $last_hub_url = $feed->push_hub_url;
+
+        // Store the new hub and topic
         $feed->push_hub_url = $hub_url;
         $feed->push_topic_url = $self_url;
 
         // re-subscribe if the expiration date is coming up soon
+        // or if the hub has changed
         if($feed->push_subscribed == 0
+           || ($hub_url != $last_hub_url)
            || ($feed->push_expiration && strtotime($feed->push_expiration) - 300 < time())) {
 
           echo "Attempting to subscribe to the hub!\n";
