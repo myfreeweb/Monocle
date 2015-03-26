@@ -1,8 +1,8 @@
 <div id="channels">
   <ul>
-    <? foreach($this->channels as $channel): ?>
+    <?php foreach($this->channels as $channel): ?>
       <li<?= $this->active_channel->id == $channel->id ? ' class="active"' : '' ?>><a href="/channel/<?= $channel['id'] ?>"><?= $channel['name'] ?></a></li>
-    <? endforeach; ?>
+    <?php endforeach; ?>
   </ul>
 </div>
 <style type="text/css">

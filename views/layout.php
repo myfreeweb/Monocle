@@ -60,24 +60,24 @@
       <ul class="nav navbar-nav">
 
         <li><a href="/">Home</a></li>
-        <? if(session('me')) { ?>
+        <?php if(session('me')) { ?>
           <li><a href="/channels">Channels</a></li>
-        <? } ?>
+        <?php } ?>
         <!-- <li><a href="/docs">Docs</a></li> -->
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <? if(session('me')) { ?>
+        <?php if(session('me')) { ?>
           <li><span class="navbar-text"><?= friendly_url(session('me')) ?></span></li>
           <li><a href="/signout">Sign Out</a></li>
-        <? /* } else if(!property_exists($this, 'authorizing')) { ?>
+        <?php /* } else if(!property_exists($this, 'authorizing')) { ?>
           <li class="navbar-text"><?= $this->authorizing ?></li>
-        <? */ } else { ?>
+        <?php */ } else { ?>
           <form action="/auth/start" method="get" class="navbar-form">
             <input type="text" name="me" placeholder="yourdomain.com" class="form-control" />
             <button type="submit" class="btn">Sign In</button>
           </form>
-        <? } ?>
+        <?php } ?>
 
       </ul>
     </div>

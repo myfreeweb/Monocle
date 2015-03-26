@@ -10,12 +10,12 @@
     'channel' => $this->channel
   ]) ?>
 
-  <? foreach($this->entries as $entry): ?>
+  <?php foreach($this->entries as $entry): ?>
     <?= partial('partials/entry', [
       'entry' => $entry,
       'syndications' => ORM::for_table('entry_syndications')->where('entry_id', $entry->id)->find_many()
     ]) ?>
-  <? endforeach; ?>
+  <?php endforeach; ?>
 
 </div>
 <script>
