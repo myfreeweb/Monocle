@@ -3,9 +3,9 @@
   Monocle
 
   <ul class="top-buttons">
-    <? if(session('me')) { ?>
+    <?php if(session('me')) { ?>
       <li><a href="/channels"><i class="fa fa-gear"></i></a></li>
-    <? } ?>
+    <?php } ?>
   </ul>
 
 </div>
