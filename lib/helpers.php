@@ -50,7 +50,9 @@ function normalize_url($url) {
 
 function render($page, $data) {
   global $app;
-  return $app->render('layout.php', array_merge($data, array('page' => $page)));
+  ob_start();
+  $app->render('layout.php', array_merge($data, array('page' => $page)));
+  return ob_get_clean();
 };
 
 function partial($template, $data=array(), $debug=false) {

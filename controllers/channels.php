@@ -14,13 +14,11 @@ $app->get('/channels/?', function($format = 'html') use ($app) {
         ->where('channel_id', $ch['id'])->count();
     }
 
-    ob_start();
-    render('channels', [
+    $html = render('channels', [
       'title'       => 'Channels',
       'meta'        => '',
       'channels'    => $channels
     ]);
-    $html = ob_get_clean();
     $res->body($html);
   }
 });
@@ -40,15 +38,14 @@ $app->get('/channel/:id', function($id) use($app) {
 
     $entries = db\get_entries_for_channel($channel->id);
 
-    ob_start();
-    render('channel', [
+    $html = render('channel', [
       'title'    => 'Channel',
       'meta'     => '',
       'channel'  => $channel,
       'channels' => $channels,
       'entries'  => $entries
     ]);
-    $res->body(ob_get_clean());
+    $res->body($html);
   }
 });
 
@@ -162,14 +159,13 @@ $app->get('/channel/:id/settings', function($id) use($app) {
 
     $feeds = db\get_feeds_for_channel($channel->id);
 
-    ob_start();
-    render('channel-settings', [
+    $html = render('channel-settings', [
       'title' => 'Channel Settings',
       'meta' => '',
       'channel' => $channel,
       'feeds' => $feeds
     ]);
-    $res->body(ob_get_clean());
+    $res->body($html);
   }
 });
 

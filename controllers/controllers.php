@@ -5,12 +5,10 @@ $app->get('/', function ($format = 'html') use ($app) {
 
   if(!is_logged_in()) {
 
-    ob_start();
-    render('index-public', array(
+    $html = render('index-public', array(
       'title'       => 'Monocle',
       'meta'        => ''
     ));
-    $html = ob_get_clean();
     $res->body($html);
 
   } else {
@@ -24,15 +22,13 @@ $app->get('/', function ($format = 'html') use ($app) {
 
     $entries = db\get_entries_for_channel($main_channel->id);
 
-    ob_start();
-    render('channel', array(
+    $html = render('channel', array(
       'title'       => 'Monocle',
       'meta'        => '',
       'channel'     => $main_channel,
       'channels'    => $channels,
       'entries'     => $entries
     ));
-    $html = ob_get_clean();
     $res->body($html);
   }
 });
@@ -41,12 +37,10 @@ $app->get('/docs/?', function($format = 'html') use ($app) {
 
   $res = $app->response();
 
-  ob_start();
-  render('docs', array(
+  $html = render('docs', array(
     'title'       => 'Docs',
     'meta'        => '',
   ));
-  $html = ob_get_clean();
   $res->body($html);
 
 });
@@ -57,11 +51,10 @@ $app->get('/preview', function() use($app) {
 
   $entry = ORM::for_table('entries')->where('url', $params['url'])->find_one();
 
-  ob_start();
-  render('preview-entry', [
+  $html = render('preview-entry', [
     'title' => 'Preview',
     'entry' => $entry
   ]);
-  $res->body(ob_get_clean());
+  $res->body($html);
 });
 
