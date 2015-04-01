@@ -1,14 +1,14 @@
 <div class="narrow">
   <?= partial('partials/header') ?>
-  <? if($this->channel->type != 'default'): ?>
+  <?php if($this->channel->type != 'default'): ?>
     <h2><?= $this->channel->name ?></h2>
-  <? endif; ?>
+  <?php endif; ?>
 
   <?= partial('partials/add-feed-to-channel', [
     'channel' => $this->channel
   ]) ?>
 
-  <? foreach($this->feeds as $feed): ?>
+  <?php foreach($this->feeds as $feed): ?>
     <div class="feed-settings-box" id="feed-<?= $feed['id'] ?>">
 
       <div class="action-buttons">
@@ -33,14 +33,14 @@
           </div>
         </div>
 
-        <? if($feed['filter']): ?>
+        <?php if($feed['filter']): ?>
           <div class="form-group">
             <div class="col-sm-3 control-label">Filter</div>
             <div class="col-sm-9 control-value">
               <?= $feed['filter'] ?>
             </div>
           </div>
-        <? endif; ?>
+        <?php endif; ?>
 
         <div class="form-group">
           <div class="col-sm-3 control-label">Last Retrieved</div>
@@ -86,7 +86,7 @@
 
       </form>
     </div>
-  <? endforeach; ?>
+  <?php endforeach; ?>
 
 </div>
 <style type="text/css">

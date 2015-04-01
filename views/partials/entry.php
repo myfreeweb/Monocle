@@ -11,45 +11,45 @@
   </div>
   <div class="clear"></div>
 
-  <? if($this->entry->name): ?>
+  <?php if($this->entry->name): ?>
     <h2 class="name"><?= $this->entry->name ?></h2>
-  <? endif; ?>
+  <?php endif; ?>
 
-  <? /* 
+  <?php /* 
   TODO: better checking of whether the image exists in the post 
     * check for src="..." src='...' and src=...
     * check for images inside object tags
   */ ?>
-  <? if($this->entry->photo_url && strpos($this->entry->content, $this->entry->photo_url) === false): ?>
+  <?php if($this->entry->photo_url && strpos($this->entry->content, $this->entry->photo_url) === false): ?>
     <img class="photo" src="<?= $this->entry->photo_url ?>">
-  <? endif; ?>
+  <?php endif; ?>
 
-  <? if($this->entry->summary): ?>
+  <?php if($this->entry->summary): ?>
     <div class="summary"><?= $this->entry->summary ?></div>
-  <? endif; ?>
+  <?php endif; ?>
 
-  <? if($this->entry->content): ?>
+  <?php if($this->entry->content): ?>
     <div class="content"><?= $this->entry->content ?></div>
-  <? endif; ?>
+  <?php endif; ?>
 
-  <? /* TODO: better checking of whether the audio exists in the post */ ?>
-  <? if($this->entry->audio_url && strpos($this->entry->content, $this->entry->audio_url) === false): ?>
+  <?php /* TODO: better checking of whether the audio exists in the post */ ?>
+  <?php if($this->entry->audio_url && strpos($this->entry->content, $this->entry->audio_url) === false): ?>
     <div class="audio">
       <audio src="<?= $this->entry->audio_url ?>" controls="controls" style="width: 100%"></audio>
     </div>
-  <? endif; ?>
+  <?php endif; ?>
 
-  <? /* TODO: better checking of whether the video exists in the post */ ?>
-  <? if($this->entry->video_url && strpos($this->entry->content, $this->entry->video_url) === false): ?>
+  <?php /* TODO: better checking of whether the video exists in the post */ ?>
+  <?php if($this->entry->video_url && strpos($this->entry->content, $this->entry->video_url) === false): ?>
     <div class="video">
       <video controls="controls" style="width: 100%"><source src="<?= $this->entry->video_url ?>" type="video/mp4"></video>
     </div>
-  <? endif; ?>
+  <?php endif; ?>
 
   <div class="meta">
     <ul>
       <li><a href="<?= $this->entry->url ?>"><?= friendly_date($this->entry->date_published, $this->entry->timezone_offset) ?></a></li>
-      <? 
+      <?php 
         foreach(['comment','like','repost','rsvp'] as $type) {
           if($this->entry->{"num_".$type."s"}) {
             echo '<li>' . response_icon($type) . ' ' . $this->entry->{"num_".$type."s"} . ' ' . pluralize($type, $this->entry->{"num_".$type."s"}) . '</li>';
@@ -62,7 +62,7 @@
 <div class="entry-actions" id="entry-actions-<?= $this->entry->id ?>">
 
   <div class="syndications" style="float: right;">
-    <? foreach($this->syndications as $s): ?>
+    <?php foreach($this->syndications as $s): ?>
       <?= partial('partials/syndication_url', ['syndication' => $s]) ?>
     <?php endforeach; ?>
   </div>
