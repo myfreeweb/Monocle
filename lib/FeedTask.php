@@ -34,7 +34,7 @@ class FeedTask {
         $hub_url = $header_rels['hub'][0];
         $hub_url_source = 'http';
       } elseif(k($mf2, 'rels') && k($mf2['rels'], 'hub')) {
-        $hub_url = k($mf2, 'rels') && k($mf2['rels'], 'hub');
+        $hub_url = $mf2['rels']['hub'][0];
         $hub_url_source = 'html';
       }
 
@@ -45,7 +45,7 @@ class FeedTask {
           $self_url = $header_rels['self'][0];
           $self_url_source = 'http';
         } elseif(k($mf2, 'rels') && k($mf2['rels'], 'self')) {
-          $self_url = k($mf2['rels'], 'self');
+          $self_url = $mf2['rels']['self'][0];
           $self_url_source = 'html';
         } else {
           $self_url = $feed->feed_url;
