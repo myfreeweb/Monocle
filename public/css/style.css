@@ -275,7 +275,7 @@ body.logged-out {
   margin-right: 6px;
   border: 0;
 }
-.entry-actions .action:hover {
+.entry-actions .action:hover, .entry-actions .action:focus {
   color: #fdd42e;
 }
 .entry-actions .action .fa.loading {
@@ -297,7 +297,7 @@ body.logged-out {
   background: transparent;
   margin-left: 6px;
 }
-.entry-actions .syndications a:hover {
+.entry-actions .syndications a:hover, .entry-actions .syndications a:focus {
   color: #ffe370;
 }
 
